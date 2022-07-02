@@ -18,7 +18,7 @@ export const LeftStyle = styled.div`
 export const RightStyle = styled.div`
   width: 50%;
   background: linear-gradient(314.4deg, #ffffff -17.42%, #aca9bb 100%);
-  min-height: 100px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -37,6 +37,7 @@ export const ModalStyle = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    width: 100%;
     input {
       height: 50px;
       border: 1px solid #ccd0d5;
@@ -51,8 +52,32 @@ export const ModalStyle = styled.div`
     .register__title_form_name {
       display: flex;
       justify-content: space-between;
+      width: 100%;
       input {
         width: 46%;
+      }
+    }
+    .registerForm__Form_password{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background-color: #f5f6f7;
+      border: 1px solid #ccd0d5;
+      border-radius: 10px;
+      padding-right: 1rem;
+      .registerForm__Form_password_input{
+        border: none;
+      }
+    }
+  }
+  @media screen and (max-width: 570px){
+    .register__title_form_name {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      input {
+        width: 100% !important;
       }
     }
   }
@@ -71,6 +96,17 @@ export const DateOfBirthStyle = styled.div`
     justify-content: space-between;
   }
   margin-bottom: 2rem;
+  @media screen and (max-width: 425px){
+    .register__birthSelect {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      /* justify-content: space-between; */
+    }
+    .ant-select.ant-select-single.ant-select-show-arrow{
+      width: 100% !important;
+    }
+  }
 `;
 
 export const RegisterButtonStyle = styled.input`

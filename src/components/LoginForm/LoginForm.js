@@ -44,8 +44,8 @@ export default function LoginForm() {
         <div className="loginForm__Form_input">
           <input
             className="loginForm__Form_input_text"
-            type="email"
-            placeholder="Email Address"
+            type="text"
+            placeholder="Username"
             required
           />
         </div>

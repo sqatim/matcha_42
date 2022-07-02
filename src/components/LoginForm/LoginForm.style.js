@@ -99,11 +99,19 @@ export const LoginFormStyle = styled.div`
         width: 75px;
         text-align: left;
       }
+      :hover {
+        background-color: #F3F3F5;
+        transition: 0.5s;
+        cursor: pointer;
+      }
     }
   }
   .loginForm__copyright {
     font-size: 16px;
     align-self: flex-start;
     color: #aca9bb;
+  }
+  @media screen and (max-width: 375px) {
+    width: 290px;
   }
 `;
