@@ -5,6 +5,8 @@ export const ContentStyle = styled.div`
   height: 650px;
   box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+  display: flex;
+  align-items: center;
 `;
 
 export const PersonalInformationStyle = styled.div`
@@ -71,3 +73,78 @@ export const PersonalInformationStyle = styled.div`
     }
   }
 `;
+
+export const UploadPhotosStyle = styled.div`
+  display: flex;
+  padding: 0 2rem;
+  /* justify-content: sp; */
+  align-items: center;
+  gap: calc(((100% - 1050px) / 2));
+  width: 100%;
+  height: 495px;
+  flex-wrap: wrap;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  .uploadPhotos__images {
+    background-color: red;
+    min-width: 240px;
+    height: 470px;
+    width: 350px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    img {
+      border-radius: 5px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .uploadPhotos__add {
+    min-width: 240px;
+    height: 470px;
+    width: 350px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ACA9BB;
+  }
+  .uploadPhotos__input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    cursor: pointer;
+    p {
+      font-weight: 500;
+      font-size: 20px;
+      color: #0c7fda;
+    }
+  }
+  @media screen and (max-width: 965px) {
+    gap: 0;
+    justify-content: center;
+    .uploadPhotos__images {
+        width: 370px;
+    }
+    .uploadPhotos__add {
+
+    }
+  }
+  @media screen and (max-width: 1400px) and (min-width: 889px){
+    gap: calc(((100% - 700px)));
+  }
+  `;
