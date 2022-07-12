@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ContainerStyle = styled.div`
   width: 80%;
-  max-width: 1300px;
+  max-width: 1200px;
   /* min-width: 768px; */
   /* min-height: px; */
   display: flex;
@@ -22,11 +22,19 @@ export const ContainerStyle = styled.div`
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       border-radius: 5px;
       border: none;
-      background-color: #0c7fda;
       color: #fff;
       font-weight: 500;
       font-size: 16px;
+    }
+    .nextStep__next {
+      background-color: #0c7fda;
       cursor: pointer;
     }
   }
+`;
+
+export const BackButtonStyle = styled.button`
+  background-color: #0c7fda;
+  cursor: pointer;
+  ${({disable}) => disable && `background-color: #D9D9D9; cursor: not-allowed`}
 `;

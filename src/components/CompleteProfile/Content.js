@@ -13,13 +13,24 @@ const onChange1 = ({ target: { value } }) => {
   // setValue1(value);
 };
 
+const StepComponent = ({ step }) => {
+  switch (step) {
+    case 0:
+      return <PersonalInformation />;
+    case 1:
+      return <UploadPhotos />;
+    case 2:
+      return <Localisation />;
+  }
+};
 
-export default function Content() {
+export default function Content({ step }) {
   return (
     <ContentStyle>
+      <StepComponent step={step} />
       {/* <PersonalInformation /> */}
       {/* <UploadPhotos/> */}
-      <Localisation/>
+      {/* <Localisation/> */}
     </ContentStyle>
   );
 }

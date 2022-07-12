@@ -92,10 +92,10 @@ ColorlibStepIcon.propTypes = {
 
 const steps = ['Personal information', 'Upload photos', 'Localisation'];
 
-export default function CustomizedSteppers() {
+export default function CustomizedSteppers({step}) {
   return (
     <Stack sx={{ width: '100%' }} spacing={4}>
-      <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
+      <Stepper alternativeLabel activeStep={step} connector={<ColorlibConnector />}>
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
