@@ -34,45 +34,6 @@ export default function UploadPhotos() {
               onChange={handleClick}
             /> 
       </div>
-      {/* <div>
-            <label htmlFor="file">
-              <img src={UploadPhotosIcon} />
-              <p>Add photo</p>
-            </label>
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="uploadPhotos__input"
-              onChange={handleClick}
-            />
-          </div>
-          <div>
-            <label htmlFor="file">
-              <img src={UploadPhotosIcon} />
-              <p>Add photo</p>
-            </label>
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="uploadPhotos__input"
-              onChange={handleClick}
-            />
-          </div>
-          <div>
-            <label htmlFor="file">
-              <img src={UploadPhotosIcon} />
-              <p>Add photo</p>
-            </label>
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="uploadPhotos__input"
-              onChange={handleClick}
-            />
-          </div> */}
     </UploadPhotosStyle>
   );
 }

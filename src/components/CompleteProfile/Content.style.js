@@ -7,6 +7,7 @@ export const ContentStyle = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 export const PersonalInformationStyle = styled.div`
@@ -81,7 +82,7 @@ export const UploadPhotosStyle = styled.div`
   align-items: center;
   gap: calc(((100% - 1050px) / 2));
   width: 100%;
-  height: 495px;
+  height: 480px;
   flex-wrap: wrap;
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -90,11 +91,10 @@ export const UploadPhotosStyle = styled.div`
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   .uploadPhotos__images {
-    background-color: red;
     min-width: 240px;
-    height: 470px;
+    height: 465px;
     width: 350px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.95rem;
     overflow: hidden;
     img {
       border-radius: 5px;
@@ -105,14 +105,14 @@ export const UploadPhotosStyle = styled.div`
   }
   .uploadPhotos__add {
     min-width: 240px;
-    height: 470px;
+    height: 465px;
     width: 350px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.95rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px dashed #ACA9BB;
+    border: 1px dashed #aca9bb;
   }
   .uploadPhotos__input {
     width: 0.1px;
@@ -134,17 +134,23 @@ export const UploadPhotosStyle = styled.div`
       color: #0c7fda;
     }
   }
-  @media screen and (max-width: 965px) {
-    gap: 0;
+  @media screen and (max-width: 1090px) {
+    /* gap: 1rem; */
     justify-content: center;
     .uploadPhotos__images {
-        width: 370px;
+      width: 370px;
     }
     .uploadPhotos__add {
-
     }
   }
-  @media screen and (max-width: 1400px) and (min-width: 889px){
+  @media screen and (max-width: 1400px) and (min-width: 1089px) {
     gap: calc(((100% - 700px)));
+    padding: 0 calc((100% - 800px) / 2);
   }
-  `;
+`;
+
+export const LocalisationStyle = styled.div`
+  /* background-color: red; */
+  width: 95%;
+  height: 90%;
+`;

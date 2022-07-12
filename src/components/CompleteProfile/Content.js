@@ -3,6 +3,7 @@ import { ContentStyle } from "./Content.style";
 import { Radio } from "antd";
 import PersonalInformation from "./PersonalInformation";
 import UploadPhotos from "./UploadPhotos";
+import Localisation from "./Localisation";
 
 const genderOptions = ["Male", "Female", "Other"];
 const lookingForOptions = ["Male", "Female", "Both"];
@@ -17,7 +18,8 @@ export default function Content() {
   return (
     <ContentStyle>
       {/* <PersonalInformation /> */}
-      <UploadPhotos/>
+      {/* <UploadPhotos/> */}
+      <Localisation/>
     </ContentStyle>
   );
 }
