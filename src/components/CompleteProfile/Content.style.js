@@ -54,10 +54,43 @@ export const PersonalInformationStyle = styled.div`
     gap: 1.2rem;
     width: 60%;
     justify-content: space-between;
-    input {
-      height: 50px;
+    height: 50px;
+    overflow: hidden;
+    .personnalInformation__tags_input_tags {
+      /* width: 100%; */
+      border: 1px solid #d9d9d9;
+      height: 100%;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
       width: 86%;
+      padding-right: 2rem;
       padding-left: 0.5rem;
+      overflow: scroll;
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      .personnalInformation__tags_tag {
+        border: 1px solid #1e96ff;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0 .8rem;
+        height: 60%;
+        background-color: #e6f7ff;
+        p{
+          min-width: unset;
+          color: #1e96ff;
+        }
+      }
+      input {
+        border: none;
+        height: 100%;
+        width: -webkit-fill-available;
+        padding-left: 0.2rem;
+      }
     }
   }
   .personnalInformation__biography_textarea {
@@ -70,6 +103,9 @@ export const PersonalInformationStyle = styled.div`
       align-self: flex-start;
     }
     textarea {
+      border: none;
+      border: 1px solid #d9d9d9;
+      resize: none;
       padding-left: 0.5rem;
       height: 80px;
       width: 86%;

@@ -3,14 +3,40 @@ import styled from "styled-components";
 export const ContainerStyle = styled.div`
   width: 80%;
   max-width: 1200px;
-  /* min-width: 768px; */
-  /* min-height: px; */
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   align-items: center;
-  img {
+  position: relative;
+  .logo {
     margin-bottom: 1rem;
+  }
+  .logOut {
+    position: absolute;
+    width: 33px;
+    right: 0;
+    top: 1rem;
+    display: flex;
+    align-items: center;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+    cursor: pointer;
+    .logOut_text {
+      width: 0;
+      transition: width 1s;
+      -webkit-transition: width 1s;
+      overflow: hidden;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    :hover {
+      width: 115px;
+      gap: 0.5rem;
+      .logOut_text {
+        width: auto;
+      }
+    }
   }
   .nextStep {
     width: 78%;
@@ -36,5 +62,6 @@ export const ContainerStyle = styled.div`
 export const BackButtonStyle = styled.button`
   background-color: #0c7fda;
   cursor: pointer;
-  ${({disable}) => disable && `background-color: #D9D9D9; cursor: not-allowed`}
+  ${({ disable }) =>
+    disable && `background-color: #D9D9D9; cursor: not-allowed`}
 `;

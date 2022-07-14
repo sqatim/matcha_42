@@ -3,12 +3,9 @@ import { BackButtonStyle, ContainerStyle } from "./Container.style";
 import Logo from "../../assets/Logo.svg";
 import CustomizedSteppers from "./Stepper";
 import Content from "./Content";
-
-const steps = [
-  "Select campaign settings",
-  "Create an ad group",
-  "Create an ad",
-];
+import LogoutIcon from "../../assets/icons/CompleteProfile/LogoutIcon.svg";
+import { useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 
 const handleNext = (step, setStep) => {
   if (step < 2) setStep(step + 1);
@@ -17,10 +14,18 @@ const handleNext = (step, setStep) => {
 const handleBack = (step, setStep) => {
   setStep(step - 1);
 };
+
+// const handleLogOut = () => {
+//   const navigate = useNavigate();
+//   navigate("/", { replace: true });
+// };
+
 export default function Container() {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [disable, setDisable] = useState(true);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (step) setDisable(false);
     else setDisable(true);
@@ -29,8 +34,12 @@ export default function Container() {
 
   return (
     <ContainerStyle>
-      <img src={Logo} />
-      <CustomizedSteppers step={step}/>
+      <img className="logo" src={Logo} />
+      <div className="logOut" onClick={() => navigate("/", { replace: true })}>
+        <img src={LogoutIcon} />
+        <p className="logOut_text">LOGOUT</p>
+      </div>
+      <CustomizedSteppers step={step} />
       <Content step={step} />
       <div className="nextStep">
         <BackButtonStyle
@@ -38,7 +47,6 @@ export default function Container() {
           disabled={disable}
           onClick={() => handleBack(step, setStep)}
         >
-          {" "}
           Back
         </BackButtonStyle>
         <button
