@@ -3,44 +3,65 @@ import DateSelect from "./DateSelect";
 import { DateOfBirthStyle, RegisterButtonStyle } from "./RegisterModal.style";
 import { Bars } from "react-loader-spinner";
 import { EyeTwoTone, EyeInvisibleOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addDateOfBirth,
+  addEmail,
+  addFirstname,
+  addLastname,
+  addPassword,
+  addUsername,
+} from "../../state/registerSlice";
+import axios from "axios";
+import { Notification } from "../Nedded/Notification";
 
-export default function RegisterForm() {
+export default function RegisterForm({ setIsModalVisible }) {
+  const { firstname, lastname, username, email, password, dateOfBirth } =
+    useSelector((state) => state.register);
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState(false);
   const [type, setType] = useState("password");
 
   const [loading, setLoading] = useState(false);
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [day, setDay] = useState("");
   const [mounth, setMounth] = useState("");
   const [year, setYear] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log("first name: " + firstname + " last name: " + lastname);
-    console.log("username: " + username);
-    console.log("email: " + email);
-    console.log("password: " + password + " confirmPassword: " + confirm);
-    console.log("day: " + day + " mounth: " + mounth + " year: " + year);
+    axios
+      .post("http://localhost:3001/register", {
+        firstname,
+        lastname,
+        email,
+        password,
+        username,
+      })
+      .then((value) => {
+        setLoading(false);
+        if (value.data.state == "success") {
+          console.log(value.data);
+          Notification(value.data.user.username.toUpperCase());
+          setIsModalVisible(false);
+        } else {
+          console.log(value.data.data);
+        }
+      });
   };
+
   const changeVisible = () => {
     if (!visible) setType("text");
     else setType("password");
     setVisible(!visible);
   };
+
   useEffect(() => {
-    if (loading == true) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 3000);
-      return () => clearTimeout(timer);
+    if (day && mounth && year) {
+      console.log("day: " + day + " mounth: " + mounth + " year: " + year);
+      dispatch(addDateOfBirth(year + "-" + mounth + "-" + "day"));
     }
-  }, [loading]);
+  }, [day, mounth, year]);
   return (
     <form onSubmit={handleSubmit}>
       <div className="register__title_form_name">
@@ -51,7 +72,7 @@ export default function RegisterForm() {
           value={firstname}
           required
           onChange={(event) => {
-            setFirstname(event.target.value);
+            dispatch(addFirstname(event.target.value));
           }}
         />
         <input
@@ -61,7 +82,7 @@ export default function RegisterForm() {
           value={lastname}
           required
           onChange={(event) => {
-            setLastname(event.target.value);
+            dispatch(addLastname(event.target.value));
           }}
         />
       </div>
@@ -72,7 +93,7 @@ export default function RegisterForm() {
         value={username}
         required
         onChange={(event) => {
-          setUsername(event.target.value);
+          dispatch(addUsername(event.target.value));
         }}
       />
       <input
@@ -82,40 +103,29 @@ export default function RegisterForm() {
         value={email}
         required
         onChange={(event) => {
-          setEmail(event.target.value);
+          dispatch(addEmail(event.target.value));
         }}
       />
-      {/* <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={password}
-        required
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      /> */}
       <div className="registerForm__Form_password">
-          <input className="registerForm__Form_password_input" type={type} placeholder="Password" required />
-          {visible ? (
-            <EyeTwoTone onClick={changeVisible} style={{ fontSize: "150%" }} />
-          ) : (
-            <EyeInvisibleOutlined
-              onClick={changeVisible}
-              style={{ fontSize: "150%", color: "#D0D0D0" }}
-            />
-          )}
-        </div>
-      {/* <input
-        type="password"
-        name="checkPassword"
-        placeholder="Confirm Password"
-        value={confirm}
-        required
-        onChange={(event) => {
-          setConfirm(event.target.value);
-        }}
-      /> */}
+        <input
+          className="registerForm__Form_password_input"
+          type={type}
+          placeholder="Password"
+          value={password}
+          onChange={(event) => {
+            dispatch(addPassword(event.target.value));
+          }}
+          required
+        />
+        {visible ? (
+          <EyeTwoTone onClick={changeVisible} style={{ fontSize: "150%" }} />
+        ) : (
+          <EyeInvisibleOutlined
+            onClick={changeVisible}
+            style={{ fontSize: "150%", color: "#D0D0D0" }}
+          />
+        )}
+      </div>
       <DateOfBirthStyle>
         <p>Date of birth</p>
         <div className="register__birthSelect">

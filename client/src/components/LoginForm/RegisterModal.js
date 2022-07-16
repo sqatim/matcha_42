@@ -2,13 +2,10 @@ import React from "react";
 import { Modal } from "antd";
 import { useState } from "react";
 import {
-  DateOfBirthStyle,
   ModalStyle,
-  RegisterButtonStyle,
   RegisterStyle,
   TitleStyle,
 } from "./RegisterModal.style";
-import DateSelect from "./DateSelect";
 import RegisterForm from "./RegisterForm";
 
 const handleSubmit = (e) => {
@@ -50,7 +47,7 @@ export default function RegisterModal() {
             <p className="register__title_description">Easy and Fast</p>
           </TitleStyle>
           <hr />
-          <RegisterForm/>
+          <RegisterForm setIsModalVisible={setIsModalVisible}/>
         </ModalStyle>
       </Modal>
     </RegisterStyle>

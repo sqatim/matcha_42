@@ -15,23 +15,14 @@ const handleSubmit = (event, setLoading) => {
 export default function LoginForm() {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [wrongDetails, setWrongDetails] = useState(false);
   const [type, setType] = useState("password");
   const changeVisible = () => {
     if (!visible) setType("text");
     else setType("password");
     setVisible(!visible);
   };
-  useEffect(() => {
-    if (loading == true) {
-      const timer = setTimeout(
-        () => {
-          setLoading(false);
-        },
-        3000
-      );
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
+  
   return (
     <LoginFormStyle>
       <img src={Logo} />
@@ -63,7 +54,7 @@ export default function LoginForm() {
         {!loading ? (
           <input type="submit" value="Login" />
         ) : (
-          <Bars height={50} width="100%"  color="#0c7fda"/>
+          <Bars height={50} width="100%" color="#0c7fda" />
         )}
       </form>
       <div className="loginForm__other">
@@ -76,6 +67,12 @@ export default function LoginForm() {
           <RecoverModal />
         </div>
       </div>
+      {wrongDetails && (
+        <p className="loginForm__wrongDetails">
+          The username entered does not belong to any account. Please check it
+          and try again.
+        </p>
+      )}
       <div className="loginForm__signInWith">
         <hr />
         <p>Sign in with</p>

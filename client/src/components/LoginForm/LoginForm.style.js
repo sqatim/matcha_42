@@ -6,7 +6,7 @@ export const LoginFormStyle = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  margin: 115px 0;
+  /* margin: 115px 0; */
   .loginForm__welcome {
     text-align: center;
     color: #2b2938;
@@ -64,6 +64,10 @@ export const LoginFormStyle = styled.div`
       color: #0c7fda;
       font-weight: 500;
     }
+  }
+  .loginForm__wrongDetails{
+    color: #ED4F61;
+    text-align: left;
   }
   .loginForm__signInWith {
     width: 100%;
