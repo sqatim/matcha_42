@@ -4,34 +4,56 @@ import Logo from "../../assets/Logo.svg";
 import CustomizedSteppers from "./Stepper";
 import Content from "./Content";
 import LogoutIcon from "../../assets/icons/CompleteProfile/LogoutIcon.svg";
-import { useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  dataMissingFalse,
+  dataMissingTrue,
+} from "../../state/completeProfileSlice";
 
-const handleNext = (step, setStep) => {
-  if (step < 2) setStep(step + 1);
+
+const verifyCompeteProfile = (data, dispatch) => {
+  if (!data.gender || !data.lookingFor || !data.tags.length) {
+    dispatch(dataMissingTrue());
+    return 0;
+  }
+  dispatch(dataMissingFalse());
+  return 1;
+};
+
+const handleNext = (step, setStep, dispatch, completeProfile) => {
+  let check = 1;
+  if (step == 0) {
+    check = verifyCompeteProfile(completeProfile, dispatch);
+  } else if (step == 1) {
+    if (!completeProfile.photos.length || !completeProfile.photos.length > 5) {
+      dispatch(dataMissingTrue());
+      check = 0;
+    }
+    else
+    dispatch(dataMissingFalse());
+  }
+  if (check && step < 2) setStep(step + 1);
 };
 
 const handleBack = (step, setStep) => {
   setStep(step - 1);
 };
 
-// const handleLogOut = () => {
-//   const navigate = useNavigate();
-//   navigate("/", { replace: true });
-// };
-
 export default function Container() {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [disable, setDisable] = useState(true);
   const navigate = useNavigate();
+  const completeProfile = useSelector((state) => state.completeProfile);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (step) setDisable(false);
     else setDisable(true);
     if (step == 2) setDone(true);
+    else setDone(false);
   }, [step]);
-
   return (
     <ContainerStyle>
       <img className="logo" src={Logo} />
@@ -51,7 +73,7 @@ export default function Container() {
         </BackButtonStyle>
         <button
           className="nextStep__next"
-          onClick={() => handleNext(step, setStep)}
+          onClick={() => handleNext(step, setStep, dispatch, completeProfile)}
         >
           {!done ? "Next" : "Submit"}
         </button>

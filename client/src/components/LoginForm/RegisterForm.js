@@ -13,7 +13,7 @@ import {
   addUsername,
 } from "../../state/registerSlice";
 import axios from "axios";
-import { Notification } from "../Nedded/Notification";
+import { registerNotification } from "../Nedded/Notification";
 
 export default function RegisterForm({ setIsModalVisible }) {
   const { firstname, lastname, username, email, password, dateOfBirth } =
@@ -42,7 +42,7 @@ export default function RegisterForm({ setIsModalVisible }) {
         setLoading(false);
         if (value.data.state == "success") {
           console.log(value.data);
-          Notification(value.data.user.username.toUpperCase());
+          registerNotification(value.data.user.username.toUpperCase());
           setIsModalVisible(false);
         } else {
           console.log(value.data.data);

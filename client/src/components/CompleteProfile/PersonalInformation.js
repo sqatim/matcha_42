@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PersonalInformationStyle } from "./Content.style";
+import { PersonalInformationStyle, TextStyle } from "./Content.style";
 import { Radio, Tag } from "antd";
 import { useState } from "react";
 import { useRef } from "react";
@@ -22,7 +22,7 @@ const handleBiography = (event, setBiography) => {
 
 export default function PersonalInformation() {
   const dispatch = useDispatch();
-  const { gender, lookingFor, tags, biography } = useSelector(
+  const { gender, lookingFor, tags, biography, dataMissing } = useSelector(
     (state) => state.completeProfile
   );
   const [biographyState, setBiographyState] = useState(biography);
@@ -33,14 +33,12 @@ export default function PersonalInformation() {
   useEffect(() => {
     tagDiv.current.scrollLeft = tagDiv.current.scrollWidth;
   }, []);
-  useEffect(() => {
-    console.log("hiii");
-    console.log(tags);
-  }, [tags]);
   return (
     <PersonalInformationStyle>
       <div className="personnalInformation__gender">
-        <p>Gender</p>
+        <TextStyle dataMissing={dataMissing} data={gender}>
+          Gender
+        </TextStyle>
         <Radio.Group
           className="personnalInformation__radio"
           options={genderOptions}
@@ -51,7 +49,9 @@ export default function PersonalInformation() {
         />
       </div>
       <div>
-        <p>Looking for</p>
+        <TextStyle dataMissing={dataMissing} data={lookingFor}>
+          Looking for
+        </TextStyle>
         <Radio.Group
           className="personnalInformation__radio"
           options={lookingForOptions}
@@ -60,7 +60,9 @@ export default function PersonalInformation() {
         />
       </div>
       <div className="personnalInformation__tags">
-        <p>Tags</p>
+        <TextStyle dataMissing={dataMissing} data={tags.length}>
+          Tags
+        </TextStyle>
         <div className="personnalInformation__tags_input">
           <div ref={tagDiv} className="personnalInformation__tags_input_tags">
             {tags.map((element, key) => (
@@ -118,9 +120,7 @@ export default function PersonalInformation() {
           ></textarea>
           <button
             className="personnalInformation__button_add"
-            onClick={() =>
-              dispatch(addBiography(biographyState))
-            }
+            onClick={() => dispatch(addBiography(biographyState))}
           >
             ADD
           </button>

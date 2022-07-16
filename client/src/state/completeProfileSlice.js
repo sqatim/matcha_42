@@ -7,6 +7,7 @@ const initialState = {
   biography: "",
   photos: [],
   position: null,
+  dataMissing: false
 };
 
 export const completeProfileSlice = createSlice({
@@ -48,6 +49,12 @@ export const completeProfileSlice = createSlice({
     addPosition: (state, action) => {
       state.position = action.payload;
     },
+    dataMissingTrue: (state) => {
+      state.dataMissing = true;
+    },
+    dataMissingFalse: (state,action) => {
+      state.dataMissing = false;
+    }
   },
 });
 
@@ -60,6 +67,8 @@ export const {
   addPhoto,
   removePhoto,
   addPosition,
+  dataMissingTrue,
+  dataMissingFalse,
 } = completeProfileSlice.actions;
 
-export default completeProfileSlice.reducer;
+// export default completeProfileSlice.reducer;

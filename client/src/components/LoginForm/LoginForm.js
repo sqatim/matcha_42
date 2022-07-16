@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LoginFormStyle } from "./LoginForm.style";
+import { LoginFormStyle, NotFoundStyle } from "./LoginForm.style";
 import Logo from "../../assets/Logo.svg";
 import { EyeTwoTone, EyeInvisibleOutlined } from "@ant-design/icons";
 import Google from "../../assets/icons/LoginPage/Google.svg";
@@ -7,22 +7,72 @@ import Intra from "../../assets/icons/LoginPage/Intra.svg";
 import RegisterModal from "./RegisterModal";
 import RecoverModal from "./RecoverModal";
 import { Bars } from "react-loader-spinner";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  addUsername,
+  addPassword,
+  addEmail,
+  addFirstname,
+  addLastname,
+  addAvatar,
+} from "../../state/userSlice";
 
-const handleSubmit = (event, setLoading) => {
-  event.preventDefault();
-  setLoading(true);
+const NotFound = () => {
+  return (
+    <NotFoundStyle>
+      <p className="loginForm__wrongDetails">
+        {" "}
+        Your search did not return any results. Please try again with other
+        information.
+      </p>
+    </NotFoundStyle>
+  );
 };
+
+const dispatchData = (dispatch, data, navigate) => {
+  dispatch(addEmail(data.email));
+  dispatch(addFirstname(data.firstname));
+  dispatch(addLastname(data.lastname));
+  if (data.avatar) dispatch(addAvatar(data.avatar));
+  if (!data.profileCompleted) navigate("/completeProfile", { replace: true });
+  // dispatch(add(data.lastname));
+};
+
 export default function LoginForm() {
+  const dispatch = useDispatch();
+  const { username, password } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [wrongDetails, setWrongDetails] = useState(false);
   const [type, setType] = useState("password");
+  const navigate = useNavigate();
   const changeVisible = () => {
     if (!visible) setType("text");
     else setType("password");
     setVisible(!visible);
   };
-  
+
+  const handleSubmit = (event, setLoading) => {
+    event.preventDefault();
+    setLoading(true);
+    axios
+      .post("http://localhost:3001/login", {
+        username,
+        password,
+      })
+      .then((value) => {
+        console.log(value.data);
+        if (value.data.state == "failed") {
+          setWrongDetails(true);
+        } else {
+          dispatchData(dispatch, value.data, navigate);
+          console.log(value.data);
+        }
+        setLoading(false);
+      });
+  };
   return (
     <LoginFormStyle>
       <img src={Logo} />
@@ -37,11 +87,25 @@ export default function LoginForm() {
             className="loginForm__Form_input_text"
             type="text"
             placeholder="Username"
+            value={username}
+            onChange={(event) => {
+              if (wrongDetails) setWrongDetails(false);
+              dispatch(addUsername(event.target.value));
+            }}
             required
           />
         </div>
         <div className="loginForm__Form_input">
-          <input type={type} placeholder="Password" required />
+          <input
+            type={type}
+            placeholder="Password"
+            value={password}
+            onChange={(event) => {
+              if (wrongDetails) setWrongDetails(false);
+              dispatch(addPassword(event.target.value));
+            }}
+            required
+          />
           {visible ? (
             <EyeTwoTone onClick={changeVisible} style={{ fontSize: "150%" }} />
           ) : (
@@ -67,12 +131,7 @@ export default function LoginForm() {
           <RecoverModal />
         </div>
       </div>
-      {wrongDetails && (
-        <p className="loginForm__wrongDetails">
-          The username entered does not belong to any account. Please check it
-          and try again.
-        </p>
-      )}
+      {wrongDetails && <NotFound />}
       <div className="loginForm__signInWith">
         <hr />
         <p>Sign in with</p>

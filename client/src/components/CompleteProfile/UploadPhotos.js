@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { UploadPhotosStyle } from "./Content.style";
+import { AddPhotoStyle, UploadPhotosStyle } from "./Content.style";
 import UploadPhotosIcon from "../../assets/icons/CompleteProfile/UploadPhotosIcon.svg";
 import CancelIcon from "../../assets/icons/CompleteProfile/CancelIcon.svg";
 
@@ -16,7 +16,7 @@ const handleClick = (event,dispatch) => {
 };
 
 export default function UploadPhotos() {
-  const {photos} = useSelector(state => state.completeProfile)
+  const {photos, dataMissing} = useSelector(state => state.completeProfile)
   const dispatch = useDispatch();
   const container = useRef();
   return (
@@ -31,7 +31,7 @@ export default function UploadPhotos() {
           <img className="uploadPhotos__images_photo" src={element} />
         </div>
       ))}
-      <div className="uploadPhotos__add">
+      <AddPhotoStyle dataMissing={dataMissing} length={photos.length} className="uploadPhotos__add">
         <label htmlFor="file">
           <img src={UploadPhotosIcon} />
           <p>Add photo</p>
@@ -47,7 +47,7 @@ export default function UploadPhotos() {
             // container.current.scrollTop = container.current.scrollHeight;
           }}
         />
-      </div>
+      </AddPhotoStyle>
     </UploadPhotosStyle>
   );
 }

@@ -77,10 +77,10 @@ export const PersonalInformationStyle = styled.div`
         display: flex;
         align-items: center;
         gap: 0.3rem;
-        padding: 0 .8rem;
+        padding: 0 0.8rem;
         height: 60%;
         background-color: #e6f7ff;
-        p{
+        p {
           min-width: unset;
           color: #1e96ff;
         }
@@ -154,17 +154,6 @@ export const UploadPhotosStyle = styled.div`
       }
     }
   }
-  .uploadPhotos__add {
-    min-width: 240px;
-    height: 440px;
-    width: 350px;
-    margin: 0rem 0 0.6rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed #aca9bb;
-  }
   .uploadPhotos__input {
     width: 0.1px;
     height: 0.1px;
@@ -207,4 +196,20 @@ export const LocalisationStyle = styled.div`
 
   width: 95%;
   height: 90%;
+`;
+
+export const TextStyle = styled.p`
+  color: ${({ dataMissing, data }) => (dataMissing && !data ? "red" : "#000")};
+`;
+
+export const AddPhotoStyle = styled.div`
+  min-width: 240px;
+  height: 440px;
+  width: 350px;
+  margin: 0rem 0 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: ${({dataMissing, length }) => dataMissing && !length ? '1px dashed red': '1px dashed #aca9bb'};
 `;

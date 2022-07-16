@@ -44,4 +44,4 @@ export const {
 } = registerSlice.actions;
 
 
-export default registerSlice.reducer;
+// export default registerSlice.reducer;

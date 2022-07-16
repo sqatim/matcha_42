@@ -65,10 +65,7 @@ export const LoginFormStyle = styled.div`
       font-weight: 500;
     }
   }
-  .loginForm__wrongDetails{
-    color: #ED4F61;
-    text-align: left;
-  }
+
   .loginForm__signInWith {
     width: 100%;
     display: flex;
@@ -117,5 +114,16 @@ export const LoginFormStyle = styled.div`
   }
   @media screen and (max-width: 375px) {
     width: 290px;
+  }
+`;
+
+
+export const NotFoundStyle = styled.div`
+  background-color:  #FFEBE8;
+  border: 1px solid #DD3C10;
+  padding: 1rem 1.3rem;
+  .loginForm__wrongDetails{
+    color: #ED4F61;
+    text-align: left;
   }
 `;
