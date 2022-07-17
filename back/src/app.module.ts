@@ -8,9 +8,15 @@ import { DataModule } from './services/data/data.module';
 import { DataService } from './services/data/data.service';
 import { UsersController } from './interface-adapters/controllers/users.controller';
 import { ProfileController } from './interface-adapters/controllers/profile.controller';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [MongoModule, UserModule, AuthModule, DataModule],
+  imports: [MongoModule, UserModule, AuthModule, DataModule, 
+  //   ServeStaticModule.forRoot({
+  //   serveRoot: join(__dirname, '..', 'upload')
+  // })
+],
   controllers: [AppController, UsersController, ProfileController],
   providers: [AppService, DataService],
 })
