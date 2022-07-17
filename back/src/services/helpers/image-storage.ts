@@ -17,11 +17,11 @@ const validMimeTypes: validMimeType[] = [
 
 export const saveImageToStorage = {
   storage: diskStorage({
-    destination: '../front-end/public',
+    destination: './upload',
     filename: (req, file, cb) => {
       const filename: string =
         path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4(); // regexr : regular expressions / '\s' for Whitespace / '/g' expression flags for global
-      const extension: string = path.parse(file.originalname).ext;
+        const extension: string = path.parse(file.originalname).ext;
       cb(null, `${filename}${extension}`);
     },
   }),

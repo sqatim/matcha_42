@@ -5,18 +5,17 @@ import CancelIcon from "../../assets/icons/CompleteProfile/CancelIcon.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, removePhoto } from "../../state/completeProfileSlice";
+import axios from "axios";
 
-const handleClick = (event,dispatch) => {
+const handleClick = (event, photos, setPhotos) => {
   const files = event.target.files;
-  console.log(files);
-  Object.keys(files).map((key, index) => {
-    // const image = "/" + files[key].name;
-    dispatch(addPhoto(files));
-  });
+    Object.keys(files).map((key, index) => {
+      setPhotos(current => [...current, files[key]]);
+    });
 };
 
-export default function UploadPhotos() {
-  const {photos, dataMissing} = useSelector(state => state.completeProfile)
+export default function UploadPhotos({ photos, setPhotos }) {
+  const { dataMissing } = useSelector((state) => state.completeProfile);
   const dispatch = useDispatch();
   const container = useRef();
   return (
@@ -31,7 +30,11 @@ export default function UploadPhotos() {
           <img className="uploadPhotos__images_photo" src={element} />
         </div>
       ))}
-      <AddPhotoStyle dataMissing={dataMissing} length={photos.length} className="uploadPhotos__add">
+      <AddPhotoStyle
+        dataMissing={dataMissing}
+        length={photos.length}
+        className="uploadPhotos__add"
+      >
         <label htmlFor="file">
           <img src={UploadPhotosIcon} />
           <p>Add photo</p>
@@ -43,7 +46,7 @@ export default function UploadPhotos() {
           multiple
           className="uploadPhotos__input"
           onChange={(event) => {
-            handleClick(event,dispatch);
+            handleClick(event, photos, setPhotos);
             // container.current.scrollTop = container.current.scrollHeight;
           }}
         />

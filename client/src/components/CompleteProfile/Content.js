@@ -5,21 +5,21 @@ import PersonalInformation from "./PersonalInformation";
 import UploadPhotos from "./UploadPhotos";
 import Localisation from "./Localisation";
 
-const StepComponent = ({ step }) => {
+const StepComponent = ({ step , photos, setPhotos}) => {
   switch (step) {
     case 0:
       return <PersonalInformation />;
     case 1:
-      return <UploadPhotos />;
+      return <UploadPhotos photos={photos} setPhotos={setPhotos}/>;
     case 2:
       return <Localisation />;
   }
 };
 
-export default function Content({ step }) {
+export default function Content({ step, photos, setPhotos }) {
   return (
     <ContentStyle>
-      <StepComponent step={step} />
+      <StepComponent step={step} photos={photos} setPhotos={setPhotos}/>
     </ContentStyle>
   );
 }

@@ -58,7 +58,6 @@ export class DataService {
 
   async completeProfile(body, id: string){
     const user = await this.userService.findUserByid(id);
-    console.log(user);
     Object.assign(user,body);
     Object.assign(user,{profileCompleted: true});
     user.save();

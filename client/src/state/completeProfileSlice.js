@@ -5,7 +5,7 @@ const initialState = {
   lookingFor: "",
   tags: [],
   biography: "",
-  photos: [],
+  // photos: [],
   position: null,
   dataMissing: false
 };
@@ -35,17 +35,17 @@ export const completeProfileSlice = createSlice({
     addBiography: (state, action) => {
       state.biography = action.payload;
     },
-    addPhoto: (state, action) => {
-      state.photos.push(action.payload);
-    },
-    removePhoto: (state, action) => {
-      return {
-        ...state,
-        photos: [...state.photos].filter((photo) => {
-          return photo != action.payload;
-        }),
-      };
-    },
+    // addPhoto: (state, action) => {
+    //   state.photos.push(action.payload);
+    // },
+    // removePhoto: (state, action) => {
+    //   return {
+    //     ...state,
+    //     photos: [...state.photos].filter((photo) => {
+    //       return photo != action.payload;
+    //     }),
+    //   };
+    // },
     addPosition: (state, action) => {
       state.position = action.payload;
     },

@@ -11,7 +11,7 @@ import {
   dataMissingTrue,
 } from "../../state/completeProfileSlice";
 
-import axios from 'axios';
+import axios from "axios";
 
 const verifyCompeteProfile = (data, dispatch) => {
   if (!data.gender || !data.lookingFor || !data.tags.length) {
@@ -22,30 +22,32 @@ const verifyCompeteProfile = (data, dispatch) => {
   return 1;
 };
 
-const handleNext = (step, setStep, dispatch, completeProfile) => {
+const handleNext = (step, setStep, dispatch, completeProfile, photos) => {
   let check = 1;
   if (step == 0) {
     check = verifyCompeteProfile(completeProfile, dispatch);
   } else if (step == 1) {
-    if (!completeProfile.photos.length || !completeProfile.photos.length > 5) {
+    if (!photos.length || !photos.length > 5) {
       dispatch(dataMissingTrue());
       check = 0;
-    }
-    else
-    dispatch(dataMissingFalse());
+    } else dispatch(dataMissingFalse());
   }
   if (check && step < 2) setStep(step + 1);
-  if(step == 2)
-  {
-    // setStep(3);
-    axios.post('http://localhost:3001/profile/completeProfile',{
-      gender: completeProfile.gender,
-      lookingFor: completeProfile.lookingFor,
-      tags: completeProfile.tags,
-      bigography: completeProfile.bigography,
-      photos: completeProfile.photos,
-      position: completeProfile.position
-    }).then(value => console.log(value.data))
+  if (step == 2) {
+    let formData = new FormData();
+    photos.map((element) => formData.append("file", element));
+    formData.append("gender", completeProfile.gender);
+    formData.append("lookingFor", completeProfile.lookingFor);
+    formData.append("tags", completeProfile.tags);
+    formData.append("bigography", completeProfile.bigography);
+    formData.append("position", completeProfile.position);
+    axios
+      .post("http://localhost:3001/profile/completeProfile", formData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((value) => console.log(value.data));
   }
 };
 
@@ -60,6 +62,7 @@ export default function Container() {
   const navigate = useNavigate();
   const completeProfile = useSelector((state) => state.completeProfile);
   const dispatch = useDispatch();
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     if (step) setDisable(false);
@@ -67,6 +70,10 @@ export default function Container() {
     if (step > 1) setDone(true);
     else setDone(false);
   }, [step]);
+
+  useEffect(() => {
+    console.log(photos);
+  }, [photos]);
   return (
     <ContainerStyle>
       <img className="logo" src={Logo} />
@@ -75,7 +82,7 @@ export default function Container() {
         <p className="logOut_text">LOGOUT</p>
       </div>
       <CustomizedSteppers step={step} />
-      <Content step={step} />
+      <Content step={step} photos={photos} setPhotos={setPhotos} />
       <div className="nextStep">
         <BackButtonStyle
           disable={disable}
@@ -86,7 +93,9 @@ export default function Container() {
         </BackButtonStyle>
         <button
           className="nextStep__next"
-          onClick={() => handleNext(step, setStep, dispatch, completeProfile)}
+          onClick={() =>
+            handleNext(step, setStep, dispatch, completeProfile, photos)
+          }
         >
           {!done ? "Next" : "Submit"}
         </button>
