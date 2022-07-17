@@ -11,6 +11,7 @@ import {
   dataMissingTrue,
 } from "../../state/completeProfileSlice";
 
+import axios from 'axios';
 
 const verifyCompeteProfile = (data, dispatch) => {
   if (!data.gender || !data.lookingFor || !data.tags.length) {
@@ -34,6 +35,18 @@ const handleNext = (step, setStep, dispatch, completeProfile) => {
     dispatch(dataMissingFalse());
   }
   if (check && step < 2) setStep(step + 1);
+  if(step == 2)
+  {
+    // setStep(3);
+    axios.post('http://localhost:3001/profile/completeProfile',{
+      gender: completeProfile.gender,
+      lookingFor: completeProfile.lookingFor,
+      tags: completeProfile.tags,
+      bigography: completeProfile.bigography,
+      photos: completeProfile.photos,
+      position: completeProfile.position
+    }).then(value => console.log(value.data))
+  }
 };
 
 const handleBack = (step, setStep) => {
@@ -51,7 +64,7 @@ export default function Container() {
   useEffect(() => {
     if (step) setDisable(false);
     else setDisable(true);
-    if (step == 2) setDone(true);
+    if (step > 1) setDone(true);
     else setDone(false);
   }, [step]);
   return (

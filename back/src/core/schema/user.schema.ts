@@ -27,13 +27,25 @@ export class User {
   password: string;
 
   @Prop()
-  dateOfBirth: Date;
+  gender: string;
 
   @Prop()
-  photos: string[];
+  lookingFor: string;
 
   @Prop()
-  position: string;
+  biography: string;
+
+  @Prop()
+  dateOfBirth: string;
+
+  @Prop()
+  photos: [string];
+
+  @Prop()
+  tags: [string];
+
+  @Prop()
+  position: [string];
 
   @Prop({ default: false })
   profileCompleted: Boolean;

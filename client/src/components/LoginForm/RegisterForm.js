@@ -27,6 +27,7 @@ export default function RegisterForm({ setIsModalVisible }) {
   const [day, setDay] = useState("");
   const [mounth, setMounth] = useState("");
   const [year, setYear] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -37,6 +38,7 @@ export default function RegisterForm({ setIsModalVisible }) {
         email,
         password,
         username,
+        dateOfBirth
       })
       .then((value) => {
         setLoading(false);
@@ -58,8 +60,7 @@ export default function RegisterForm({ setIsModalVisible }) {
 
   useEffect(() => {
     if (day && mounth && year) {
-      console.log("day: " + day + " mounth: " + mounth + " year: " + year);
-      dispatch(addDateOfBirth(year + "-" + mounth + "-" + "day"));
+      dispatch(addDateOfBirth(year + "-" + mounth + "-" + day));
     }
   }, [day, mounth, year]);
   return (

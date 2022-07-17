@@ -7,10 +7,11 @@ import { AuthModule } from './frameworks/auth/auth.module';
 import { DataModule } from './services/data/data.module';
 import { DataService } from './services/data/data.service';
 import { UsersController } from './interface-adapters/controllers/users.controller';
+import { ProfileController } from './interface-adapters/controllers/profile.controller';
 
 @Module({
   imports: [MongoModule, UserModule, AuthModule, DataModule],
-  controllers: [AppController, UsersController],
+  controllers: [AppController, UsersController, ProfileController],
   providers: [AppService, DataService],
 })
 export class AppModule {}

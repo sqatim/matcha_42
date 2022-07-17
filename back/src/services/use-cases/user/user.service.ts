@@ -19,6 +19,10 @@ export class UserService {
   async findUserByUsername(newUsername: string) {
     return await this.userModel.findOne({ username: newUsername }).exec();
   }
+
+  async findUserByid(id: string) {
+    return await this.userModel.findById(id).exec();
+  }
   async findDuplicateUser(user: CreateUserDto) {
     return await this.userModel
       .findOne({ $or: [{ username: user.username }, { email: user.email }] })

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PersonalInformationStyle, TextStyle } from "./Content.style";
+import { PersonalInformationStyle, TagsInputStyle, TextStyle } from "./Content.style";
 import { Radio, Tag } from "antd";
 import { useState } from "react";
 import { useRef } from "react";
@@ -64,7 +64,7 @@ export default function PersonalInformation() {
           Tags
         </TextStyle>
         <div className="personnalInformation__tags_input">
-          <div ref={tagDiv} className="personnalInformation__tags_input_tags">
+          <TagsInputStyle dataMissing={dataMissing} data={tags.length} ref={tagDiv} className="personnalInformation__tags_input_tags">
             {tags.map((element, key) => (
               <div key={key} className="personnalInformation__tags_tag">
                 <p>{element}</p>
@@ -90,7 +90,7 @@ export default function PersonalInformation() {
                 }
               }}
             />
-          </div>
+          </TagsInputStyle>
           <button
             className="personnalInformation__button_add"
             onClick={() => {

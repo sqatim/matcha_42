@@ -36,7 +36,11 @@ const dispatchData = (dispatch, data, navigate) => {
   dispatch(addFirstname(data.firstname));
   dispatch(addLastname(data.lastname));
   if (data.avatar) dispatch(addAvatar(data.avatar));
-  if (!data.profileCompleted) navigate("/completeProfile", { replace: true });
+  if (!data.profileCompleted) 
+  {
+    console.log(data);
+    navigate("/completeProfile", { replace: true });
+  }
   // dispatch(add(data.lastname));
 };
 
@@ -63,12 +67,11 @@ export default function LoginForm() {
         password,
       })
       .then((value) => {
-        console.log(value.data);
         if (value.data.state == "failed") {
           setWrongDetails(true);
         } else {
+          localStorage.setItem('token', value.data.jwt)
           dispatchData(dispatch, value.data, navigate);
-          console.log(value.data);
         }
         setLoading(false);
       });

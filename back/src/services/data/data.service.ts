@@ -39,15 +39,29 @@ export class DataService {
 
   async signIn(newUser: CheckUserDto) {
     let user: any = await this.userService.findUserByUsername(newUser.username);
+    console.log(user.id);
     if (user) {
       if (user.password == newUser.password)
+      {
+        const jwt = this.login(user);
         return {
           state: 'success',
           user,
+          jwt
         };
+      }
     }
     return {
       state: 'failed',
     };
+  }
+
+  async completeProfile(body, id: string){
+    const user = await this.userService.findUserByid(id);
+    console.log(user);
+    Object.assign(user,body);
+    Object.assign(user,{profileCompleted: true});
+    user.save();
+    return user;
   }
 }

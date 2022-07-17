@@ -10,8 +10,8 @@ const handleClick = (event,dispatch) => {
   const files = event.target.files;
   console.log(files);
   Object.keys(files).map((key, index) => {
-    const image = "/" + files[key].name;
-    dispatch(addPhoto(image));
+    // const image = "/" + files[key].name;
+    dispatch(addPhoto(files));
   });
 };
 
