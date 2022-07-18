@@ -71,9 +71,6 @@ export default function Container() {
     else setDone(false);
   }, [step]);
 
-  useEffect(() => {
-    console.log(photos);
-  }, [photos]);
   return (
     <ContainerStyle>
       <img className="logo" src={Logo} />
@@ -82,7 +79,11 @@ export default function Container() {
         <p className="logOut_text">LOGOUT</p>
       </div>
       <CustomizedSteppers step={step} />
-      <Content step={step} photos={photos} setPhotos={setPhotos} />
+      <Content
+        step={step}
+        photos={photos}
+        setPhotos={setPhotos}
+      />
       <div className="nextStep">
         <BackButtonStyle
           disable={disable}

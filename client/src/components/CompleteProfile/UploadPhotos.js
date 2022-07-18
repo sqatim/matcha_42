@@ -1,22 +1,29 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AddPhotoStyle, UploadPhotosStyle } from "./Content.style";
 import UploadPhotosIcon from "../../assets/icons/CompleteProfile/UploadPhotosIcon.svg";
 import CancelIcon from "../../assets/icons/CompleteProfile/CancelIcon.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addPhoto, removePhoto } from "../../state/completeProfileSlice";
 import axios from "axios";
 
-const handleClick = (event, photos, setPhotos) => {
+const handleClick = (event, setPhotos) => {
   const files = event.target.files;
-    Object.keys(files).map((key, index) => {
-      setPhotos(current => [...current, files[key]]);
-    });
+  Object.keys(files).map((key, index) => {
+    setPhotos((current) => [...current, files[key]]);
+  });
 };
 
+const removePhoto = (
+  element,
+  photos,
+  setPhotos,
+) => {
+  setPhotos((current) => [
+    ...current.filter((image) => image.name != element.name),
+  ]);
+};
 export default function UploadPhotos({ photos, setPhotos }) {
   const { dataMissing } = useSelector((state) => state.completeProfile);
-  const dispatch = useDispatch();
   const container = useRef();
   return (
     <UploadPhotosStyle ref={container}>
@@ -25,9 +32,18 @@ export default function UploadPhotos({ photos, setPhotos }) {
           <img
             className="uploadPhotos__images_cancel"
             src={CancelIcon}
-            onClick={() => dispatch(removePhoto(element))}
+            onClick={() =>
+              removePhoto(
+                element,
+                photos,
+                setPhotos,
+              )
+            }
           />
-          <img className="uploadPhotos__images_photo" src={element} />
+          <img
+            className="uploadPhotos__images_photo"
+            src={URL.createObjectURL(element)}
+          />
         </div>
       ))}
       <AddPhotoStyle
@@ -40,13 +56,14 @@ export default function UploadPhotos({ photos, setPhotos }) {
           <p>Add photo</p>
         </label>
         <input
+          accept="image/*"
           type="file"
           name="file"
           id="file"
           multiple
           className="uploadPhotos__input"
           onChange={(event) => {
-            handleClick(event, photos, setPhotos);
+            handleClick(event, setPhotos);
             // container.current.scrollTop = container.current.scrollHeight;
           }}
         />
