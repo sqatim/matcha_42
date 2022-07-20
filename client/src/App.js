@@ -6,20 +6,15 @@ import CompleteProfile from "./pages/CompleteProfile/CompleteProfile";
 import Friends from "./pages/Friends/Friends";
 import Messages from "./pages/Messages/Messages";
 import Profile from "./pages/Profile/Profile";
-import './App.css';
+import "./App.css";
+import Layout from "./pages/Layout/Layout";
+import Routing from "./components/Routing/Routing";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="browse" element={<Browse />} />
-        <Route path="completeProfile" element={<CompleteProfile />} />
-        <Route path="friends" element={<Friends />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<Profile />} />
-      </Routes>
-    </Router>
+    <div>
+      <Routing />
+    </div>
   );
 }
 

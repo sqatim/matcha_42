@@ -23,6 +23,9 @@ export class UserService {
   async findUserByid(id: string) {
     return await this.userModel.findById(id).exec();
   }
+  async findMyProfileByid(id: string) {
+    return await this.userModel.findById(id, '-password').exec();
+  }
   async findDuplicateUser(user: CreateUserDto) {
     return await this.userModel
       .findOne({ $or: [{ username: user.username }, { email: user.email }] })

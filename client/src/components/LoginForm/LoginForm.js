@@ -17,6 +17,14 @@ import {
   addFirstname,
   addLastname,
   addAvatar,
+  setTags,
+  addGender,
+  addLookingFor,
+  addDateOfBirth,
+  addBiography,
+  setPhotos,
+  addProfileCompleted,
+  userLogged,
 } from "../../state/userSlice";
 
 const NotFound = () => {
@@ -31,22 +39,29 @@ const NotFound = () => {
   );
 };
 
-const dispatchData = (dispatch, data, navigate) => {
+export const dispatchData = (dispatch, data, navigate) => {
   dispatch(addEmail(data.email));
   dispatch(addFirstname(data.firstname));
   dispatch(addLastname(data.lastname));
+  dispatch(addDateOfBirth(data.dateOfBirth));
+  dispatch(userLogged());
   if (data.avatar) dispatch(addAvatar(data.avatar));
-  if (!data.profileCompleted) 
-  {
-    console.log(data);
+  if (!data.profileCompleted) {
     navigate("/completeProfile", { replace: true });
+  } else {
+    dispatch(addGender(data.gender));
+    dispatch(addLookingFor(data.lookingFor));
+    dispatch(setTags(data.tags));
+    data.biography && dispatch(addBiography(data.biography));
+    dispatch(setPhotos(data.photos));
+    dispatch(addProfileCompleted(data.profileCompleted));
   }
-  // dispatch(add(data.lastname));
 };
 
 export default function LoginForm() {
   const dispatch = useDispatch();
   const { username, password } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [wrongDetails, setWrongDetails] = useState(false);
@@ -70,11 +85,14 @@ export default function LoginForm() {
         if (value.data.state == "failed") {
           setWrongDetails(true);
         } else {
-          localStorage.setItem('token', value.data.jwt)
+          localStorage.setItem("token", value.data.jwt);
+          console.log(value);
           dispatchData(dispatch, value.data, navigate);
+          navigate("/profile", { replace: true });
         }
         setLoading(false);
-      });
+      })
+      .catch(() => navigate("/", { replace: true }));
   };
   return (
     <LoginFormStyle>

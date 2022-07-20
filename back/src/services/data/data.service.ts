@@ -12,6 +12,7 @@ export class DataService {
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
+    console.log('id: ', user.id);
     return this.jwtService.sign(payload);
   }
 
@@ -39,15 +40,14 @@ export class DataService {
 
   async signIn(newUser: CheckUserDto) {
     let user: any = await this.userService.findUserByUsername(newUser.username);
-    console.log(user.id);
     if (user) {
-      if (user.password == newUser.password)
-      {
+      if (user.password == newUser.password) {
         const jwt = this.login(user);
+        console.log('jwt: ', jwt);
         return {
           state: 'success',
           user,
-          jwt
+          jwt,
         };
       }
     }
@@ -56,11 +56,21 @@ export class DataService {
     };
   }
 
-  async completeProfile(body, id: string){
+  async completeProfile(body, file, id: string) {
     const user = await this.userService.findUserByid(id);
-    Object.assign(user,body);
-    Object.assign(user,{profileCompleted: true});
+    let photos = [];
+    file.map((element) => photos.push(element.filename));
+    Object.assign(user, body);
+    Object.assign(user, { photos });
+    Object.assign(user, { profileCompleted: true });
     user.save();
+    console.log(user);
+    return user;
+  }
+
+  async findMyData(id) {
+    const user = await this.userService.findMyProfileByid(id);
+    console.log(user);
     return user;
   }
 }

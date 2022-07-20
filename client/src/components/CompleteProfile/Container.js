@@ -12,6 +12,7 @@ import {
 } from "../../state/completeProfileSlice";
 
 import axios from "axios";
+import { dispatchData } from "../LoginForm/LoginForm";
 
 const verifyCompeteProfile = (data, dispatch) => {
   if (!data.gender || !data.lookingFor || !data.tags.length) {
@@ -22,7 +23,14 @@ const verifyCompeteProfile = (data, dispatch) => {
   return 1;
 };
 
-const handleNext = (step, setStep, dispatch, completeProfile, photos) => {
+const handleNext = (
+  step,
+  setStep,
+  dispatch,
+  completeProfile,
+  photos,
+  navigate
+) => {
   let check = 1;
   if (step == 0) {
     check = verifyCompeteProfile(completeProfile, dispatch);
@@ -38,16 +46,21 @@ const handleNext = (step, setStep, dispatch, completeProfile, photos) => {
     photos.map((element) => formData.append("file", element));
     formData.append("gender", completeProfile.gender);
     formData.append("lookingFor", completeProfile.lookingFor);
-    formData.append("tags", completeProfile.tags);
+    completeProfile.tags.map((element) => formData.append("tags", element));
     formData.append("bigography", completeProfile.bigography);
     formData.append("position", completeProfile.position);
+    console.log(completeProfile.tags);
     axios
       .post("http://localhost:3001/profile/completeProfile", formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-      .then((value) => console.log(value.data));
+      .then((value) => {
+        console.log(value.data)
+        dispatchData(dispatch, value.data, navigate);
+        navigate("/Profile", { replace: true });
+      });
   }
 };
 
@@ -79,11 +92,7 @@ export default function Container() {
         <p className="logOut_text">LOGOUT</p>
       </div>
       <CustomizedSteppers step={step} />
-      <Content
-        step={step}
-        photos={photos}
-        setPhotos={setPhotos}
-      />
+      <Content step={step} photos={photos} setPhotos={setPhotos} />
       <div className="nextStep">
         <BackButtonStyle
           disable={disable}
@@ -95,7 +104,14 @@ export default function Container() {
         <button
           className="nextStep__next"
           onClick={() =>
-            handleNext(step, setStep, dispatch, completeProfile, photos)
+            handleNext(
+              step,
+              setStep,
+              dispatch,
+              completeProfile,
+              photos,
+              navigate
+            )
           }
         >
           {!done ? "Next" : "Submit"}

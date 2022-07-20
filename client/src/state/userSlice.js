@@ -12,8 +12,9 @@ const initialState = {
   tags: [],
   biography: "",
   position: null,
-  profileCompleted: null,
+  profileCompleted: false,
   avatar: null,
+  logged: false,
 };
 
 export const userSlice = createSlice({
@@ -47,6 +48,12 @@ export const userSlice = createSlice({
     addTag: (state, action) => {
       state.tags.push(action.payload);
     },
+    setTags: (state, action) => {
+      return {
+        ...state,
+        tags: [...action.payload],
+      };
+    },
     removeTag: (state, action) => {
       return {
         ...state,
@@ -59,9 +66,12 @@ export const userSlice = createSlice({
     addBiography: (state, action) => {
       state.biography = action.payload;
     },
-    // addPhoto: (state, action) => {
-    //   state.photos.push(action.payload);
-    // },
+    setPhotos: (state, action) => {
+      return {
+        ...state,
+        photos: [action.payload],
+      };
+    },
     // removePhoto: (state, action) => {
     //   return {
     //     ...state,
@@ -78,6 +88,9 @@ export const userSlice = createSlice({
     },
     addAvatar: (state, action) => {
       state.avatar = action.payload;
+    },
+    userLogged: (state) => {
+      state.logged = true;
     },
   },
 });
@@ -97,6 +110,9 @@ export const {
   addPosition,
   addProfileCompleted,
   addAvatar,
+  setTags,
+  setPhotos,
+  userLogged,
 } = userSlice.actions;
 
 // export default userSlice.reducer;
