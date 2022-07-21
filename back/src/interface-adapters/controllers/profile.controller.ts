@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Req,
   UploadedFile,
   UploadedFiles,
@@ -37,11 +38,23 @@ export class ProfileController {
     return this.dataService.completeProfile(body, file, req.user.id);
   }
 
+  
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async FindMyProfile(@Req() req) {
     console.log(req.user)
     // return await this.dataService.findMyData('62d87eb9d59303f818934af9');
     return await this.dataService.findMyData(req.user.id);
+  }
+
+  @Put('me/firstTimeLogged')
+  @UseGuards(JwtAuthGuard)
+  async firstTimeLogged(@Req() req) {
+    return await this.dataService.firstTimeLogged(req.user.id);
+  }
+  @Put('me/Avatar')
+  @UseGuards(JwtAuthGuard)
+  async changeAvatar(@Req() req, @Body() body) {
+    return await this.dataService.changeAvatar(req.user.id, body.avatar);
   }
 }

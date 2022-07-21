@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type UserDocument = User & Document;
 
-
 @Schema()
 export class User {
   // @Prop({required: true})
@@ -48,7 +47,16 @@ export class User {
   position: [string];
 
   @Prop({ default: false })
+  positionSelected: Boolean;
+
+  @Prop({ default: 0 })
+  rating: number;
+
+  @Prop({ default: false })
   profileCompleted: Boolean;
+
+  @Prop({ default: true })
+  firstTimeLogged: Boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

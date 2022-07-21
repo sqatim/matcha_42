@@ -13,6 +13,9 @@ import FriendsSvg from "../Nedded/FriendsSvg";
 import NotificationsSvg from "../Nedded/NotificationsSvg";
 import MessagesSvg from "../Nedded/MessagesSvg";
 import LogoutSvg from "../Nedded/LogoutSvg";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetUser } from "../../state/userSlice";
 
 const list = [
   { icon: BrowseSvg, text: "Browse" },
@@ -22,12 +25,15 @@ const list = [
 ];
 
 export default function SideBar({ name, setName }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { username, avatar } = useSelector((state) => state.user);
   return (
     <SideBarStyle>
       <img className="matchaLogo" src={Logo} alt="logo" width={200} />
       <InfoStyle onClick={() => setName("Profile")}>
-        <img src={Picture} alt="" />
-        <p>Kat</p>
+        <img src={avatar} alt="" />
+        <p>{username}</p>
       </InfoStyle>
       <SideBarListStyle name={name}>
         {list.map((element, key) => (
@@ -42,7 +48,13 @@ export default function SideBar({ name, setName }) {
         ))}
       </SideBarListStyle>
       <hr />
-      <LogOutStyle>
+      <LogOutStyle
+        onClick={() => {
+          localStorage.removeItem("token");
+          dispatch(resetUser());
+          navigate("/", { replace: true });
+        }}
+      >
         <LogoutSvg />
         <p>Logout</p>
       </LogOutStyle>

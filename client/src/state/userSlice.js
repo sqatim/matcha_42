@@ -15,6 +15,8 @@ const initialState = {
   profileCompleted: false,
   avatar: null,
   logged: false,
+  firstTimeLogged: true,
+  positionSelected: false,
 };
 
 export const userSlice = createSlice({
@@ -69,7 +71,7 @@ export const userSlice = createSlice({
     setPhotos: (state, action) => {
       return {
         ...state,
-        photos: [action.payload],
+        photos: [...action.payload],
       };
     },
     // removePhoto: (state, action) => {
@@ -92,6 +94,13 @@ export const userSlice = createSlice({
     userLogged: (state) => {
       state.logged = true;
     },
+    addFirstTimeLogged: (state, action) => {
+      state.firstTimeLogged = action.payload;
+    },
+    setPositionSelected: (state, action) => {
+      state.positionSelected = action.payload;
+    },
+    resetUser: () => initialState,
   },
 });
 
@@ -113,6 +122,9 @@ export const {
   setTags,
   setPhotos,
   userLogged,
+  addFirstTimeLogged,
+  resetUser,
+  setPositionSelected
 } = userSlice.actions;
 
 // export default userSlice.reducer;

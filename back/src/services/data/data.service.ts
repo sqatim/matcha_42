@@ -64,13 +64,31 @@ export class DataService {
     Object.assign(user, { photos });
     Object.assign(user, { profileCompleted: true });
     user.save();
-    console.log(user);
     return user;
   }
 
   async findMyData(id) {
     const user = await this.userService.findMyProfileByid(id);
-    console.log(user);
     return user;
+  }
+
+  async firstTimeLogged(id) {
+    const user = await this.userService.findMyProfileByid(id);
+    Object.assign(user, { firstTimeLogged: false });
+    user.save();
+    return {
+      state: 'success',
+      user,
+    };
+  }
+
+  async changeAvatar(id, avatar) {
+    const user = await this.userService.findMyProfileByid(id);
+    Object.assign(user, { avatar: avatar });
+    user.save();
+    return {
+      state: 'success',
+      user,
+    };
   }
 }

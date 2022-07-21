@@ -25,13 +25,13 @@ import {
   setPhotos,
   addProfileCompleted,
   userLogged,
+  addFirstTimeLogged,
 } from "../../state/userSlice";
 
 const NotFound = () => {
   return (
     <NotFoundStyle>
       <p className="loginForm__wrongDetails">
-        {" "}
         Your search did not return any results. Please try again with other
         information.
       </p>
@@ -43,8 +43,10 @@ export const dispatchData = (dispatch, data, navigate) => {
   dispatch(addEmail(data.email));
   dispatch(addFirstname(data.firstname));
   dispatch(addLastname(data.lastname));
+  dispatch(addUsername(data.username));
   dispatch(addDateOfBirth(data.dateOfBirth));
   dispatch(userLogged());
+  dispatch(addFirstTimeLogged(data.firstTimeLogged));
   if (data.avatar) dispatch(addAvatar(data.avatar));
   if (!data.profileCompleted) {
     navigate("/completeProfile", { replace: true });
@@ -87,8 +89,9 @@ export default function LoginForm() {
         } else {
           localStorage.setItem("token", value.data.jwt);
           console.log(value);
-          dispatchData(dispatch, value.data, navigate);
-          navigate("/profile", { replace: true });
+          dispatchData(dispatch, value.data.user, navigate);
+          if (value.data.user.profileCompleted)
+            navigate("/profile", { replace: true });
         }
         setLoading(false);
       })

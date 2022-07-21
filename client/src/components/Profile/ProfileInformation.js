@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   ProfileContentStyle,
   ProfileInormationBiographyStyle,
@@ -6,14 +7,24 @@ import {
   ProfileInformationInterestsStyle,
 } from "./ProfileContent.style";
 
-const tags = ["E_sport", "Football", "Books", "Travel", "Stroll"];
+// const tags = ["E_sport", "Football", "Books", "Travel", "Stroll"];
 
 export default function ProfileInformation() {
+  const { avatar, firstname, lastname, username, gender, dateOfBirth, tags, biograpy } =
+    useSelector((state) => state.user);
+  const [age, setAge] = useState("");
+  useEffect(() => {
+    function getAge(dateString) {
+      var ageInMilliseconds = new Date() - new Date(dateString);
+      return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365);
+    }
+    setAge(getAge(dateOfBirth));
+  }, []);
   return (
     <ProfileContentStyle>
       <ProfileInformationDetailsStyle>
         <img
-          src="/picture1.jpeg"
+          src={avatar}
           width={230}
           height={230}
           className="profileInformation__avatar"
@@ -21,19 +32,21 @@ export default function ProfileInformation() {
         <div className="details">
           <div className="details__info">
             <p>Usename</p>
-            <p>Kat</p>
+            <p>{username}</p>
           </div>
           <div className="details__info">
             <p>Full Name</p>
-            <p>Katarina Wae</p>
+            <p>
+              {firstname} {lastname}
+            </p>
           </div>
           <div className="details__info">
             <p>Gender</p>
-            <p>Female</p>
+            <p>{gender}</p>
           </div>
           <div className="details__info">
             <p>Age</p>
-            <p>24 ans</p>
+            <p>{age} ans</p>
           </div>
           <div className="details__info">
             <p>Rating</p>
@@ -44,7 +57,7 @@ export default function ProfileInformation() {
       <ProfileInormationBiographyStyle>
         <p className="profileInformation__biography">Biography</p>
         <p className="profileInformation__biography_text">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
+          {/* Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
           scrambled it to make a type specimen book. It has survived not only
@@ -52,7 +65,8 @@ export default function ProfileInformation() {
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
           scrambled it to make a type specimen book. It has survived not only
-          five
+          five */}
+          {biograpy}
         </p>
       </ProfileInormationBiographyStyle>
       <ProfileInformationInterestsStyle>

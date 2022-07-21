@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const ProfileContentStyle = styled.div`
-  /* background-color: blue; */
   width: 100%;
   height: 100%;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
@@ -98,6 +97,34 @@ export const ProfileInformationInterestsStyle = styled.div`
       border-radius: 15px;
       color: #fff;
       font-size: 16px;
+    }
+  }
+`;
+
+export const ProfileGaleryStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  overflow: scroll;
+  width: 100%;
+  height: 600px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  .photo__card {
+    min-width: 240px;
+    height: 440px;
+    width: 350px;
+    margin: 0rem 0 0.6rem;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
     }
   }
 `;
