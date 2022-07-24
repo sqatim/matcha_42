@@ -55,6 +55,7 @@ const handleNext = (
       axios
         .get("https://ipinfo.io/105.154.1.237?token=f5a7b56f410145")
         .then((value) => {
+          console.log('jerreura khayba')
           const pos = value.data.loc.split(",");
           pos.map((element) =>
             formData.append("position", parseFloat(element))
@@ -66,11 +67,13 @@ const handleNext = (
               },
             })
             .then((value) => {
+              console.log("wa samir");
               console.log(value.data);
               dispatchData(dispatch, value.data, navigate);
               navigate("/Profile", { replace: true });
             });
-        });
+        })
+        .catch(() => console.log("jerreura"));
     } else {
       formData.append("position", completeProfile.position);
       formData.append("positionSelected", true);

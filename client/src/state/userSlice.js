@@ -88,6 +88,9 @@ export const userSlice = createSlice({
         position: [...action.payload],
       };
     },
+    removePosition: (state) => {
+      state.position = null;
+    },
     addProfileCompleted: (state, action) => {
       state.profileCompleted = action.payload;
     },
@@ -120,6 +123,7 @@ export const {
   removeTag,
   addBiography,
   addPosition,
+  removePosition,
   addProfileCompleted,
   addAvatar,
   setTags,

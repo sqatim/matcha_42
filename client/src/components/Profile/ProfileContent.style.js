@@ -128,3 +128,32 @@ export const ProfileGaleryStyle = styled.div`
     }
   }
 `;
+
+export const ProfileMapStyle = styled.div`
+  position: relative;
+
+  width: 100%;
+  height: 85%;
+  .map__buttons {
+    position: absolute;
+    bottom: 2rem;
+    right: 1rem;
+    z-index: 1000;
+    .map__geolocate {
+      margin-bottom: 0.3rem;
+    }
+    .map__geolocate,
+    .map__geolocate_off {
+      background-color: #fff;
+      width: 40px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  }
+`;
