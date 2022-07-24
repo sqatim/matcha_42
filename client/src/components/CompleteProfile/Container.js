@@ -42,25 +42,50 @@ const handleNext = (
   }
   if (check && step < 2) setStep(step + 1);
   if (step == 2) {
+    // console.log("position: ", completeProfile.position);
     let formData = new FormData();
     photos.map((element) => formData.append("file", element));
     formData.append("gender", completeProfile.gender);
     formData.append("lookingFor", completeProfile.lookingFor);
     completeProfile.tags.map((element) => formData.append("tags", element));
     formData.append("bigography", completeProfile.bigography);
-    formData.append("position", completeProfile.position);
+    // formData.append("position", completeProfile.position);
     console.log(completeProfile.tags);
-    axios
-      .post("http://localhost:3001/profile/completeProfile", formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((value) => {
-        console.log(value.data)
-        dispatchData(dispatch, value.data, navigate);
-        navigate("/Profile", { replace: true });
-      });
+    if (completeProfile.position == null) {
+      axios
+        .get("https://ipinfo.io/105.154.1.237?token=f5a7b56f410145")
+        .then((value) => {
+          const pos = value.data.loc.split(",");
+          pos.map((element) =>
+            formData.append("position", parseFloat(element))
+          );
+          axios
+            .post("http://localhost:3001/profile/completeProfile", formData, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            })
+            .then((value) => {
+              console.log(value.data);
+              dispatchData(dispatch, value.data, navigate);
+              navigate("/Profile", { replace: true });
+            });
+        });
+    } else {
+      formData.append("position", completeProfile.position);
+      formData.append("positionSelected", true);
+      axios
+        .post("http://localhost:3001/profile/completeProfile", formData, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((value) => {
+          console.log(value.data);
+          dispatchData(dispatch, value.data, navigate);
+          navigate("/Profile", { replace: true });
+        });
+    }
   }
 };
 

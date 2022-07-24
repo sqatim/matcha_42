@@ -83,7 +83,10 @@ export const userSlice = createSlice({
     //   };
     // },
     addPosition: (state, action) => {
-      state.position = action.payload;
+      return {
+        ...state,
+        position: [...action.payload],
+      };
     },
     addProfileCompleted: (state, action) => {
       state.profileCompleted = action.payload;
@@ -124,7 +127,7 @@ export const {
   userLogged,
   addFirstTimeLogged,
   resetUser,
-  setPositionSelected
+  setPositionSelected,
 } = userSlice.actions;
 
 // export default userSlice.reducer;

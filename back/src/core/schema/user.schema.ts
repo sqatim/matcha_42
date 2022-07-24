@@ -44,7 +44,7 @@ export class User {
   tags: [string];
 
   @Prop()
-  position: [string];
+  position: [number];
 
   @Prop({ default: false })
   positionSelected: Boolean;

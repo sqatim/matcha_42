@@ -156,10 +156,32 @@ export const UploadPhotosStyle = styled.div`
 
 export const LocalisationStyle = styled.div`
   /* background-color: red; */
-  position: absolute;
+  position: relative;
 
   width: 95%;
   height: 90%;
+  .map__buttons {
+    position: absolute;
+    bottom: 2rem;
+    right: 1rem;
+    z-index: 1000;
+    .map__geolocate {
+      margin-bottom: 0.3rem;
+    }
+    .map__geolocate,
+    .map__geolocate_off {
+      background-color: #fff;
+      width: 40px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  }
 `;
 
 export const TextStyle = styled.p`
@@ -175,42 +197,44 @@ export const AddPhotoStyle = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: ${({dataMissing, length }) => dataMissing && !length ? '1px dashed red': '1px dashed #aca9bb'};
+  border: ${({ dataMissing, length }) =>
+    dataMissing && !length ? "1px dashed red" : "1px dashed #aca9bb"};
 `;
 
 export const TagsInputStyle = styled.div`
-      /* width: 100%; */
-      border: ${({ dataMissing, data }) => (dataMissing && !data ? "1px solid red" : "1px solid #d9d9d9")};
-      height: 100%;
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      width: 86%;
-      padding-right: 2rem;
-      padding-left: 0.5rem;
-      overflow: scroll;
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-      .personnalInformation__tags_tag {
-        border: 1px solid #1e96ff;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-        padding: 0 0.8rem;
-        height: 60%;
-        background-color: #e6f7ff;
-        p {
-          min-width: unset;
-          color: #1e96ff;
-        }
-      }
-      input {
-        border: none;
-        height: 100%;
-        width: -webkit-fill-available;
-        padding-left: 0.2rem;
-      }
+  /* width: 100%; */
+  border: ${({ dataMissing, data }) =>
+    dataMissing && !data ? "1px solid red" : "1px solid #d9d9d9"};
+  height: 100%;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 86%;
+  padding-right: 2rem;
+  padding-left: 0.5rem;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  .personnalInformation__tags_tag {
+    border: 1px solid #1e96ff;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0 0.8rem;
+    height: 60%;
+    background-color: #e6f7ff;
+    p {
+      min-width: unset;
+      color: #1e96ff;
+    }
+  }
+  input {
+    border: none;
+    height: 100%;
+    width: -webkit-fill-available;
+    padding-left: 0.2rem;
+  }
 `;

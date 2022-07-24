@@ -38,7 +38,7 @@ export default function RegisterForm({ setIsModalVisible }) {
         email,
         password,
         username,
-        dateOfBirth
+        dateOfBirth,
       })
       .then((value) => {
         setLoading(false);
@@ -47,6 +47,7 @@ export default function RegisterForm({ setIsModalVisible }) {
           registerNotification(value.data.user.username.toUpperCase());
           setIsModalVisible(false);
         } else {
+          console.log("wa drari"  );
           console.log(value.data.data);
         }
       });
