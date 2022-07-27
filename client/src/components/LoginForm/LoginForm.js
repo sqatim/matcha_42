@@ -27,6 +27,7 @@ import {
   userLogged,
   addFirstTimeLogged,
   setPositionSelected,
+  postLogin,
 } from "../../state/userSlice";
 
 const NotFound = () => {
@@ -64,7 +65,9 @@ export const dispatchData = (dispatch, data, navigate) => {
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const { username, password } = useSelector((state) => state.user);
+  const { status, username, password, profileCompleted } = useSelector(
+    (state) => state.user
+  );
   const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -79,26 +82,37 @@ export default function LoginForm() {
 
   const handleSubmit = (event, setLoading) => {
     event.preventDefault();
-    setLoading(true);
-    axios
-      .post("http://localhost:3001/login", {
-        username,
-        password,
-      })
-      .then((value) => {
-        if (value.data.state == "failed") {
-          setWrongDetails(true);
-        } else {
-          localStorage.setItem("token", value.data.jwt);
-          console.log(value);
-          dispatchData(dispatch, value.data.user, navigate);
-          if (value.data.user.profileCompleted)
-            navigate("/profile", { replace: true });
-        }
-        setLoading(false);
-      })
-      .catch(() => navigate("/", { replace: true }));
+    // setLoading(true);
+    dispatch(postLogin({ username, password }));
+    // axios
+    //   .post("http://localhost:3001/login", {
+    //     username,
+    //     password,
+    //   })
+    //   .then((value) => {
+    //     if (value.data.state == "failed") {
+    //       setWrongDetails(true);
+    //     } else {
+    //       localStorage.setItem("token", value.data.jwt);
+    //       console.log(value);
+    //       dispatchData(dispatch, value.data.user, navigate);
+    //       if (value.data.user.profileCompleted)
+    //         navigate("/profile", { replace: true });
+    //     }
+    //     setLoading(false);
+    //   })
+    //   .catch(() => navigate("/", { replace: true }));
   };
+  useEffect(() => {
+    console.log(user);
+    if (status == "pending") setLoading(true);
+    else setLoading(false);
+    if (status == "success") {
+      if (!profileCompleted) navigate("/completeProfile", { replace: true });
+      else navigate("/profile", { replace: true });
+    }
+    if (status == "failed") setWrongDetails(true);
+  }, [status]);
   return (
     <LoginFormStyle>
       <img src={Logo} />

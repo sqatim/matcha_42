@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { loginRequest } from "../utils/fetchData";
 
 const initialState = {
   firstname: "",
@@ -17,7 +18,12 @@ const initialState = {
   logged: false,
   firstTimeLogged: true,
   positionSelected: false,
+  status: null,
 };
+
+export const postLogin = createAsyncThunk("user/postLogin", async (infos) => {
+  return await loginRequest(infos.username, infos.password);
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -74,14 +80,6 @@ export const userSlice = createSlice({
         photos: [...action.payload],
       };
     },
-    // removePhoto: (state, action) => {
-    //   return {
-    //     ...state,
-    //     photos: [...state.photos].filter((photo) => {
-    //       return photo != action.payload;
-    //     }),
-    //   };
-    // },
     addPosition: (state, action) => {
       return {
         ...state,
@@ -107,6 +105,53 @@ export const userSlice = createSlice({
       state.positionSelected = action.payload;
     },
     resetUser: () => initialState,
+  },
+  extraReducers: {
+    [postLogin.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [postLogin.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      if (action.payload.state == "failed") {
+        state.status = "failed";
+        return;
+      }
+      localStorage.setItem("token", action.payload.jwt);
+      state = Object.assign(state, action.payload.user, { status: "success" });
+      // const {
+      //   firstname,
+      //   lastname,
+      //   username,
+      //   avatar,
+      //   dateOfBirth,
+      //   email,
+      //   firstTimeLogged,
+      //   gender,
+      //   lookingFor,
+      //   photos,
+      //   position,
+      //   positionSelected,
+      //   profileCompleted,
+      // } = action.payload.user;
+      // return {
+      //   ...state,
+      //   status: "success",
+      //   firstname,
+      //   lastname,
+      //   username,
+      //   avatar,
+      //   dateOfBirth,
+      //   email,
+      //   firstTimeLogged,
+      //   gender,
+      //   lookingFor,
+      //   photos: [...photos],
+      //   position: [...position],
+      //   positionSelected,
+      //   profileCompleted,
+      //   logged: true,
+      // };
+    },
   },
 });
 

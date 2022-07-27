@@ -13,6 +13,7 @@ import {
 
 import axios from "axios";
 import { dispatchData } from "../LoginForm/LoginForm";
+import { resetUser } from "../../state/userSlice";
 
 const verifyCompeteProfile = (data, dispatch) => {
   if (!data.gender || !data.lookingFor || !data.tags.length) {
@@ -55,7 +56,7 @@ const handleNext = (
       axios
         .get("https://ipinfo.io/105.154.1.237?token=f5a7b56f410145")
         .then((value) => {
-          console.log('jerreura khayba')
+          console.log("jerreura khayba");
           const pos = value.data.loc.split(",");
           pos.map((element) =>
             formData.append("position", parseFloat(element))
@@ -115,7 +116,14 @@ export default function Container() {
   return (
     <ContainerStyle>
       <img className="logo" src={Logo} />
-      <div className="logOut" onClick={() => navigate("/", { replace: true })}>
+      <div
+        className="logOut"
+        onClick={() => {
+          localStorage.removeItem("token");
+          dispatch(resetUser());
+          navigate("/", { replace: true });
+        }}
+      >
         <img src={LogoutIcon} />
         <p className="logOut_text">LOGOUT</p>
       </div>
