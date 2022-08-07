@@ -5,10 +5,182 @@ export const ProfileContentStyle = styled.div`
   height: 100%;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  padding: 2rem;
   display: flex;
+  padding: 2rem 0;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 1rem;
+  .ProfileContent__edit {
+    display: flex;
+    gap: 1rem;
+    align-self: flex-end;
+    .ProfileContent__edit_child {
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.3rem;
+      height: 30px;
+      cursor: pointer;
+      p {
+        font-weight: 400;
+        font-size: 18px;
+        :hover {
+          text-decoration: underline;
+        }
+      }
+      i {
+        font-size: 18px;
+        margin-top: 0.1rem;
+      }
+    }
+  }
+  .ProfileContent__content {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 590px;
+  }
+`;
+
+export const ProfileInformationEditStyle = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 1rem 4rem;
+  display: flex;
+  gap: 1.5rem;
+  height: 635px;
+  flex-direction: column;
+  .details {
+    width: 100%;
+    .details__info {
+      height: 50px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p,
+      input,
+      select {
+        font-weight: 400;
+        font-size: 18px;
+      }
+      input {
+        width: max-content;
+        text-align: right;
+        border: none;
+        cursor: pointer;
+      }
+      select {
+        border: none;
+        background-color: white;
+        appearance: none;
+        text-align: right;
+        cursor: pointer;
+        :focus {
+          outline: none;
+          /* background: #E5E5E5; */
+        }
+      }
+      border-bottom: 1px solid #e9e7f3;
+    }
+  }
+  .profileInformationEdit__saveButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+    button {
+      background-color: #fff;
+      width: 160px;
+      height: 50px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+      border: none;
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .profileInformationEdit__saveButton_cancel {
+      color: #0c7fda;
+    }
+    .profileInformationEdit__saveButton_save {
+      background-color: #0c7fda;
+    }
+  }
+`;
+
+export const ProfileEditPasswordStyle = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 1rem 4rem;
+  display: flex;
+  gap: 1.5rem;
+  height: 635px;
+  flex-direction: column;
+  justify-content: space-between;
+  .details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    .details__info {
+      height: 50px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p,
+      input,
+      select {
+        font-weight: 400;
+        font-size: 18px;
+      }
+      input {
+        width: max-content;
+        text-align: right;
+        border: none;
+        cursor: pointer;
+      }
+      select {
+        border: none;
+        background-color: white;
+        appearance: none;
+        text-align: right;
+        cursor: pointer;
+        :focus {
+          outline: none;
+        }
+      }
+      border-bottom: 1px solid #e9e7f3;
+    }
+  }
+  .profileInformationEdit__saveButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+    button {
+      background-color: #fff;
+      width: 160px;
+      height: 50px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+      border: none;
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .profileInformationEdit__saveButton_cancel {
+      color: #0c7fda;
+    }
+    .profileInformationEdit__saveButton_save {
+      background-color: #0c7fda;
+    }
+  }
 `;
 
 export const ProfileInformationDetailsStyle = styled.div`
@@ -41,6 +213,7 @@ export const ProfileInormationBiographyStyle = styled.div`
   border-radius: 17px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   .profileInformation__biography {
     display: flex;
     align-items: center;
@@ -50,7 +223,8 @@ export const ProfileInormationBiographyStyle = styled.div`
     font-size: 17px;
     border-bottom: 1px solid #e9e7f3;
   }
-  .profileInformation__biography_text {
+  .profileInformation__biography_text,
+  .profileInformation__biography_area {
     padding: 0.5rem 1rem;
     font-size: 15px;
     height: 80px;
@@ -60,6 +234,10 @@ export const ProfileInormationBiographyStyle = styled.div`
     }
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+  .profileInformation__biography_area {
+    border: none;
+    /* padding-bottom: 1rem; */
   }
 `;
 export const ProfileInformationInterestsStyle = styled.div`
@@ -99,16 +277,31 @@ export const ProfileInformationInterestsStyle = styled.div`
       font-size: 16px;
     }
   }
+  .profileInformation__tags_edit {
+    justify-content: flex-start !important;
+    gap: 1rem;
+    flex-wrap: nowrap;
+
+    input {
+      border: none;
+      background-color: #f5f5f5;
+      height: 100%;
+      width: -webkit-fill-available;
+      padding-left: 0.4rem;
+      border-radius: 4px;
+    }
+  }
 `;
 
 export const ProfileGaleryStyle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
   overflow: scroll;
   width: 100%;
   height: 600px;
+  padding: 1rem 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem 0rem;
+  place-items: center;
   ::-webkit-scrollbar {
     display: none;
   }
@@ -120,6 +313,11 @@ export const ProfileGaleryStyle = styled.div`
     width: 350px;
     margin: 0rem 0 0.6rem;
     position: relative;
+    :hover {
+      .profilePhotos__deletemModal {
+        display: block;
+      }
+    }
     img {
       width: 100%;
       height: 100%;
@@ -127,6 +325,38 @@ export const ProfileGaleryStyle = styled.div`
       border-radius: 5px;
     }
   }
+`;
+
+export const AddProfilePhotosStyle = styled.div`
+  min-width: 240px;
+  height: 440px;
+  width: 350px;
+  margin: 0rem 0 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .uploadPhotos__input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    cursor: pointer;
+    p {
+      font-weight: 500;
+      font-size: 20px;
+      color: #0c7fda;
+    }
+  }
+  border: 1px dashed #aca9bb;
 `;
 
 export const ProfileMapStyle = styled.div`

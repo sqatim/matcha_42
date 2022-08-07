@@ -82,6 +82,7 @@ export default function AvatarModal() {
       <ContentStyle className="fatimezzahra">
         <Avatar
           width={500}
+          imageWidth={500}
           height={500}
           onCrop={onCrop}
           onClose={onClose}

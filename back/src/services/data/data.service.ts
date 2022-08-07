@@ -91,4 +91,30 @@ export class DataService {
       user,
     };
   }
+  async updateData(id, body) {
+    const user = await this.userService.findMyProfileByid(id);
+    if (Object.keys(body).length === 0) {
+      return {
+        state: 'Not updated',
+      };
+    }
+
+    for (const [key, value] of Object.entries(body)) {
+      if (
+        key == 'firstname' ||
+        key == 'lastname' ||
+        key == 'username' ||
+        key == 'gender' ||
+        key == 'lookingFor' ||
+        key == 'biography' ||
+        key == 'tags'
+      )
+        Object.assign(user, { [key]: value });
+    }
+    user.save();
+    return {
+      state: 'Updated',
+      user: body,
+    };
+  }
 }

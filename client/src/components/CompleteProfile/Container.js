@@ -49,7 +49,7 @@ const handleNext = (
     formData.append("gender", completeProfile.gender);
     formData.append("lookingFor", completeProfile.lookingFor);
     completeProfile.tags.map((element) => formData.append("tags", element));
-    formData.append("bigography", completeProfile.bigography);
+    formData.append("biography", completeProfile.biography);
     // formData.append("position", completeProfile.position);
     console.log(completeProfile.tags);
     if (completeProfile.position == null) {
