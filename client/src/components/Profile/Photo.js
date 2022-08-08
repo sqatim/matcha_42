@@ -1,21 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Space } from "antd";
+import { useDispatch } from "react-redux";
+import { removePhoto } from "../../state/userSlice";
+import axios from "axios";
 
-const confirm = () => {
+const confirm = (setVisible, dispatch, element) => {
   Modal.confirm({
     title: "Confirm",
     icon: <ExclamationCircleOutlined />,
-    content: "Bla bla ...",
-    okText: "确认",
-    cancelText: "取消",
-    onOk:{},
-    onCancel:{}
+    content: "Do you want to remove this picture!!!",
+    okText: "Accept",
+    cancelText: "Cancel",
+    onOk() {
+      console.log("Save");
+      axios
+        .delete(`http://localhost:3001/profile/me/photos/${element}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((value) => {
+          dispatch(removePhoto(element));
+          setVisible(false);
+        });
+    },
+    onCancel() {
+      console.log("Cancel");
+      setVisible(false);
+    },
   });
 };
 
-const DeleteModal = () => {
+const DeleteModal = ({ element }) => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const showModal = () => {
     setVisible(true);
@@ -26,16 +45,29 @@ const DeleteModal = () => {
   };
   return (
     <DeleteModalStyle className="profilePhotos__deletemModal">
-      <i className="fi fi-sr-cross-circle" onClick={confirm}></i>
+      <i
+        className="fi fi-sr-cross-circle"
+        onClick={() => confirm(setVisible, dispatch, element)}
+      ></i>
     </DeleteModalStyle>
   );
 };
 
 export default function Photo({ element }) {
+  const effectRun = useRef(true);
+  // useEffect(() => {
+  //   if(effectRun)
+  //   {
+  //     console.log(element);
+  //     return () => {
+  //       effectRun.current = false
+  //     }
+  //   }
+  // },[])
   return (
     <div className="photo__card">
       <img src={`http://localhost:3001/upload/${element}`} />
-      <DeleteModal />
+      <DeleteModal element={element} />
     </div>
   );
 }

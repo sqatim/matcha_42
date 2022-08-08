@@ -85,7 +85,7 @@ export default function AvatarModal() {
           imageWidth={500}
           height={500}
           onCrop={onCrop}
-          onClose={onClose}
+          // onClose={onClose}
           src={src}
         />
       </ContentStyle>

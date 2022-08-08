@@ -117,4 +117,14 @@ export class DataService {
       user: body,
     };
   }
+
+  async removePhoto(id, photoId)
+  {
+    const user = await this.userService.findMyPhotosProfileByid(id);
+    console.log(user.photos);
+    const photos = user.photos.filter(element => element != photoId);
+    Object.assign(user, {photos});
+    user.save();
+    return user;
+  }
 }

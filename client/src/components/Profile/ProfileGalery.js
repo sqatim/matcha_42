@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   AddProfilePhotosStyle,
@@ -8,6 +8,14 @@ import {
 import UploadPhotosIcon from "../../assets/icons/CompleteProfile/UploadPhotosIcon.svg";
 import Photo from "./Photo";
 
+const handleClick = (event, setPhotos) => {
+  const files = event.target.files;
+  Object.keys(files).map((key, index) => {
+    // setPhotos((current) => [...current, files[key]]);
+    console.log(files[key])
+  });
+};
+
 export default function ProfileGalery() {
   const { photos } = useSelector((state) => state.user);
   useEffect(() => {
@@ -16,8 +24,8 @@ export default function ProfileGalery() {
   return (
     <ProfileContentStyle>
       <ProfileGaleryStyle>
-        {photos.map((element) => (
-          <Photo element={element} />
+        {photos.map((element, key) => (
+          <Photo key={key} element={element} />
         ))}
         {photos.length < 5 && (
           <AddProfilePhotosStyle>
@@ -33,7 +41,7 @@ export default function ProfileGalery() {
               multiple
               className="uploadPhotos__input"
               onChange={(event) => {
-                // handleClick(event, setPhotos);
+                handleClick(event);
                 // container.current.scrollTop = container.current.scrollHeight;
               }}
             />

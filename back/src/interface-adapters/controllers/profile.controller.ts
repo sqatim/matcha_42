@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Put,
   Req,
@@ -21,7 +23,7 @@ export class ProfileController {
   constructor(
     private readonly dataService: DataService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
   @Get()
   findAll() {
     return 'This action returns all cats';
@@ -61,7 +63,11 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   async changeInformations(@Req() req, @Body() body) {
     return await this.dataService.updateData(req.user.id, body);
-    // console.log(body);
-    // return await this.dataService.changeAvatar(req.user.id, body.avatar);
+  }
+
+  @Delete('me/photos/:photoId')
+  @UseGuards(JwtAuthGuard)
+  async removePhoto(@Req() req, @Param('photoId') photoId: string) {
+    return await this.dataService.removePhoto(req.user.id, photoId);
   }
 }

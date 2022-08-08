@@ -80,12 +80,19 @@ export const userSlice = createSlice({
         photos: [...action.payload],
       };
     },
+    removePhoto: (state, action) => {
+      return {
+        ...state,
+        photos: state.photos.filter(element => element != action.payload)
+      }
+    },
     addPosition: (state, action) => {
       return {
         ...state,
         position: [...action.payload],
       };
-    },
+    }
+    ,
     removePosition: (state) => {
       state.position = null;
     },
@@ -177,6 +184,7 @@ export const {
   addFirstTimeLogged,
   resetUser,
   setPositionSelected,
+  removePhoto
 } = userSlice.actions;
 
 // export default userSlice.reducer;

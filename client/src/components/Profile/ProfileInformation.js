@@ -31,7 +31,7 @@ export default function ProfileInformation() {
             }}
           >
             <p>Change password</p>
-            <i class="fi fi-rr-lock"></i>
+            <i className="fi fi-rr-lock"></i>
           </div>
           <div
             className="ProfileContent__edit_child"
@@ -41,7 +41,7 @@ export default function ProfileInformation() {
             }}
           >
             <p>Edit Profile</p>
-            <i class="fi fi-rs-settings"></i>
+            <i className="fi fi-rs-settings"></i>
           </div>
         </div>
       )}
