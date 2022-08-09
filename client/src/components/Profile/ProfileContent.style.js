@@ -208,6 +208,39 @@ export const ProfileInformationDetailsStyle = styled.div`
     }
   }
 `;
+
+export const ProfileAvatarStyle = styled.div`
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 4px solid #000;
+  position: relative;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+  .ProfileAvatar__edit{
+    background-color: #fff;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    right: -20px;
+    bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.12);
+    i{
+      width: 24px;
+      height: 24px;
+      font-size: 170%;
+      transform: translate(0%, -10%);
+    }
+  }
+`;
+
 export const ProfileInormationBiographyStyle = styled.div`
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
   border-radius: 17px;

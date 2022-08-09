@@ -7,6 +7,7 @@ import {
   ProfileInformationInterestsStyle,
 } from "./ProfileContent.style";
 import { Rate } from 'antd';
+import ProfileAvatar from "./ProfileAvatar";
 
 
 export default function ProfileInformationContent() {
@@ -33,12 +34,7 @@ export default function ProfileInformationContent() {
   return (
     <div className="ProfileContent__content">
       <ProfileInformationDetailsStyle>
-        <img
-          src={avatar}
-          width={230}
-          height={230}
-          className="profileInformation__avatar"
-        />
+        <ProfileAvatar avatar={avatar}/>
         <div className="details">
           <div className="details__info">
             <p>Username</p>

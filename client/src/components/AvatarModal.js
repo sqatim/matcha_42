@@ -8,8 +8,7 @@ import { addAvatar, addFirstTimeLogged } from "../state/userSlice";
 import Avatar from "react-avatar-edit";
 import styled from "styled-components";
 
-export default function AvatarModal() {
-  console.log("fatim zahra");
+export default function AvatarModal({ editAvatar, setAvatarModal }) {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const [src, setSrc] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -36,6 +35,7 @@ export default function AvatarModal() {
         dispatch(addAvatar(preview));
         setIsModalVisible(false);
         dispatch(addFirstTimeLogged(false));
+        if (editAvatar) setAvatarModal(false);
       });
   };
 
@@ -43,6 +43,7 @@ export default function AvatarModal() {
     setPreview(avatar);
     setIsModalVisible(false);
     dispatch(addFirstTimeLogged(false));
+    if (editAvatar) setAvatarModal(false);
   };
 
   const onClose = () => {
@@ -52,22 +53,22 @@ export default function AvatarModal() {
   const onCrop = (view) => {
     setPreview(view);
   };
-  useEffect(() => {
-    axios
-      .put(
-        "http://localhost:3001/profile/me/firstTimeLogged",
-        {},
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((value) => {
-        // dispatch(addFirstTimeLogged(value.data.user.firstTimeLogged));
-        // console.log("user: ", value.data.user);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .put(
+  //       "http://localhost:3001/profile/me/firstTimeLogged",
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + localStorage.getItem("token"),
+  //         },
+  //       }
+  //     )
+  //     .then((value) => {
+  //       // dispatch(addFirstTimeLogged(value.data.user.firstTimeLogged));
+  //       // console.log("user: ", value.data.user);
+  //     });
+  // }, []);
   return (
     <Modal
       title="Choose avatar"
