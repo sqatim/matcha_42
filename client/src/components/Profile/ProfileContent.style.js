@@ -396,7 +396,7 @@ export const ProfileMapStyle = styled.div`
   position: relative;
 
   width: 100%;
-  height: 85%;
+  height: 100%;
   .map__buttons {
     position: absolute;
     bottom: 2rem;
