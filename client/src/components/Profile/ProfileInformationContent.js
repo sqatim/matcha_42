@@ -56,7 +56,7 @@ export default function ProfileInformationContent() {
           </div>
           <div className="details__info">
             <p>Rating</p>
-            <Rate disabled defaultValue={rating} />
+            <Rate allowHalf disabled  defaultValue={rating} />
           </div>
         </div>
       </ProfileInformationDetailsStyle>

@@ -8,7 +8,7 @@ export class DataService {
   constructor(
     private readonly jwtService: JwtService,
     private userService: UserService,
-  ) {}
+  ) { }
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
@@ -84,11 +84,24 @@ export class DataService {
 
   async changeAvatar(id, avatar) {
     const user = await this.userService.findMyProfileByid(id);
-    Object.assign(user, { avatar: avatar });
+    Object.assign(user, { avatar: avatar, firstTimeLogged: false });
     user.save();
     return {
       state: 'success',
       user,
+    };
+  }
+
+  async addPhotos(id, files) {
+    const user = await this.userService.findMyProfileByid(id);
+    let photos = user.photos;
+    files.map(element => photos.push(element.filename))
+    console.log(photos);
+    Object.assign(user, { photos});
+    user.save();
+    return {
+      state: 'success',
+      photos,
     };
   }
   async updateData(id, body) {
@@ -117,13 +130,23 @@ export class DataService {
       user: body,
     };
   }
+  
+  async updateRating(id, body) {
+    const user = await this.userService.findMyProfileByid(id);
 
-  async removePhoto(id, photoId)
-  {
+    Object.assign(user, { rating: 2.5 });
+    user.save();
+    return {
+      state: 'Updated',
+      user: user,
+    };
+  }
+
+  async removePhoto(id, photoId) {
     const user = await this.userService.findMyPhotosProfileByid(id);
     console.log(user.photos);
     const photos = user.photos.filter(element => element != photoId);
-    Object.assign(user, {photos});
+    Object.assign(user, { photos });
     user.save();
     return user;
   }

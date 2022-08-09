@@ -28,6 +28,7 @@ import {
   addFirstTimeLogged,
   setPositionSelected,
   postLogin,
+  addRating,
 } from "../../state/userSlice";
 
 const NotFound = () => {
@@ -49,6 +50,7 @@ export const dispatchData = (dispatch, data, navigate) => {
   dispatch(addDateOfBirth(data.dateOfBirth));
   dispatch(userLogged());
   dispatch(addFirstTimeLogged(data.firstTimeLogged));
+  dispatch(addRating(data.rating));
   if (data.avatar) dispatch(addAvatar(data.avatar));
   if (!data.profileCompleted) {
     navigate("/completeProfile", { replace: true });

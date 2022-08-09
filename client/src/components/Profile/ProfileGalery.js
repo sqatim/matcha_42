@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   AddProfilePhotosStyle,
   ProfileContentStyle,
@@ -7,17 +7,29 @@ import {
 } from "./ProfileContent.style";
 import UploadPhotosIcon from "../../assets/icons/CompleteProfile/UploadPhotosIcon.svg";
 import Photo from "./Photo";
+import axios from "axios";
+import { setPhotos } from "../../state/userSlice";
 
-const handleClick = (event, setPhotos) => {
+const handleClick = (event, dispatch) => {
   const files = event.target.files;
+  let formData =  new FormData();
   Object.keys(files).map((key, index) => {
-    // setPhotos((current) => [...current, files[key]]);
-    console.log(files[key])
+    formData.append("file", files[key]);
+  });
+  axios.post("http://localhost:3001/profile/me/photos", formData, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  })
+  .then((value) => {
+    console.log(value.data)
+    dispatch(setPhotos(value.data.photos))
   });
 };
 
 export default function ProfileGalery() {
   const { photos } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log(photos);
   }, []);
@@ -41,7 +53,7 @@ export default function ProfileGalery() {
               multiple
               className="uploadPhotos__input"
               onChange={(event) => {
-                handleClick(event);
+                handleClick(event, dispatch);
                 // container.current.scrollTop = container.current.scrollHeight;
               }}
             />

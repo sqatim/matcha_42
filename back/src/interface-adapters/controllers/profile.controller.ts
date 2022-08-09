@@ -54,6 +54,12 @@ export class ProfileController {
     return await this.dataService.firstTimeLogged(req.user.id);
   }
 
+  @Post('me/photos')
+  @UseInterceptors(FilesInterceptor('file', 5, saveImageToStorage))
+  @UseGuards(JwtAuthGuard)
+  async addPhotos(@Req() req, @UploadedFiles() files: Array<Express.Multer.File>,) {
+    return await this.dataService.addPhotos(req.user.id, files);
+  }
   @Put('me/Avatar')
   @UseGuards(JwtAuthGuard)
   async changeAvatar(@Req() req, @Body() body) {
@@ -63,6 +69,11 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   async changeInformations(@Req() req, @Body() body) {
     return await this.dataService.updateData(req.user.id, body);
+  }
+  @Put('me/rating')
+  @UseGuards(JwtAuthGuard)
+  async changerating(@Req() req, @Body() body) {
+    return await this.dataService.updateRating(req.user.id, body);
   }
 
   @Delete('me/photos/:photoId')

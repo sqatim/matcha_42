@@ -19,6 +19,7 @@ const initialState = {
   firstTimeLogged: true,
   positionSelected: false,
   status: null,
+  rating: 0,
 };
 
 export const postLogin = createAsyncThunk("user/postLogin", async (infos) => {
@@ -73,6 +74,9 @@ export const userSlice = createSlice({
 
     addBiography: (state, action) => {
       state.biography = action.payload;
+    },
+    addRating: (state, action) => {
+      state.rating = action.payload;
     },
     setPhotos: (state, action) => {
       return {
@@ -184,7 +188,8 @@ export const {
   addFirstTimeLogged,
   resetUser,
   setPositionSelected,
-  removePhoto
+  removePhoto,
+  addRating
 } = userSlice.actions;
 
 // export default userSlice.reducer;

@@ -13,7 +13,6 @@ import { LayoutStyle } from "./Layout.style";
 export default function Layout({ children }) {
   const user = useSelector((state) => state.user);
   const [name, setName] = useState("Profile");
-  // const [modal, setModal] = useState("Pr);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
