@@ -70,10 +70,16 @@ export class ProfileController {
   async changeInformations(@Req() req, @Body() body) {
     return await this.dataService.updateData(req.user.id, body);
   }
+
   @Put('me/rating')
   @UseGuards(JwtAuthGuard)
   async changerating(@Req() req, @Body() body) {
     return await this.dataService.updateRating(req.user.id, body);
+  }
+  @Put('me/position')
+  @UseGuards(JwtAuthGuard)
+  async changePosition(@Req() req, @Body() body) {
+    return await this.dataService.updatePosition(req.user.id, body);
   }
 
   @Delete('me/photos/:photoId')

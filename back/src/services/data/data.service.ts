@@ -59,9 +59,12 @@ export class DataService {
   async completeProfile(body, file, id: string) {
     const user = await this.userService.findUserByid(id);
     let photos = [];
+    let position = [];
     file.map((element) => photos.push(element.filename));
+    body.position.map(element => position.push(element));
     Object.assign(user, body);
     Object.assign(user, { photos });
+    Object.assign(user, { position });
     Object.assign(user, { profileCompleted: true });
     user.save();
     return user;
@@ -97,7 +100,7 @@ export class DataService {
     let photos = user.photos;
     files.map(element => photos.push(element.filename))
     console.log(photos);
-    Object.assign(user, { photos});
+    Object.assign(user, { photos });
     user.save();
     return {
       state: 'success',
@@ -130,11 +133,22 @@ export class DataService {
       user: body,
     };
   }
-  
+
   async updateRating(id, body) {
     const user = await this.userService.findMyProfileByid(id);
 
     Object.assign(user, { rating: 2.5 });
+    user.save();
+    return {
+      state: 'Updated',
+      user: user,
+    };
+  }
+  async updatePosition(id, body) {
+    const user = await this.userService.findMyProfileByid(id);
+
+    Object.assign(user, { position: body.position, positionSelected: body.positionSelected });
+    console.log(body);
     user.save();
     return {
       state: 'Updated',

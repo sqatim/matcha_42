@@ -29,6 +29,7 @@ import {
   setPositionSelected,
   postLogin,
   addRating,
+  addPosition,
 } from "../../state/userSlice";
 
 const NotFound = () => {
@@ -50,11 +51,11 @@ export const dispatchData = (dispatch, data, navigate) => {
   dispatch(addDateOfBirth(data.dateOfBirth));
   dispatch(userLogged());
   dispatch(addFirstTimeLogged(data.firstTimeLogged));
-  dispatch(addRating(data.rating));
   if (data.avatar) dispatch(addAvatar(data.avatar));
   if (!data.profileCompleted) {
     navigate("/completeProfile", { replace: true });
   } else {
+    dispatch(addRating(data.rating));
     dispatch(setPositionSelected(data.positionSelected));
     dispatch(addGender(data.gender));
     dispatch(addLookingFor(data.lookingFor));
@@ -62,6 +63,8 @@ export const dispatchData = (dispatch, data, navigate) => {
     data.biography && dispatch(addBiography(data.biography));
     dispatch(setPhotos(data.photos));
     dispatch(addProfileCompleted(data.profileCompleted));
+    dispatch(addPosition(data.position))
+    dispatch(setPositionSelected(data.positionSelected))
   }
 };
 

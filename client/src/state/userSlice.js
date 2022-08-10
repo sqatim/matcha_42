@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginRequest } from "../utils/fetchData";
+import { loginRequest, setPositionRequest } from "../utils/fetchData";
 
 const initialState = {
   firstname: "",
@@ -25,6 +25,13 @@ const initialState = {
 export const postLogin = createAsyncThunk("user/postLogin", async (infos) => {
   return await loginRequest(infos.username, infos.password);
 });
+
+export const changePositionRequest = createAsyncThunk(
+  "user/changePosition",
+  async (position, positionSelected) => {
+    return await setPositionRequest(position, positionSelected);
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -67,7 +74,7 @@ export const userSlice = createSlice({
       return {
         ...state,
         tags: [...state.tags].filter((tag) => {
-          return tag != action.payload;
+          return tag !== action.payload;
         }),
       };
     },
@@ -87,16 +94,15 @@ export const userSlice = createSlice({
     removePhoto: (state, action) => {
       return {
         ...state,
-        photos: state.photos.filter(element => element != action.payload)
-      }
+        photos: state.photos.filter((element) => element !== action.payload),
+      };
     },
     addPosition: (state, action) => {
       return {
         ...state,
         position: [...action.payload],
       };
-    }
-    ,
+    },
     removePosition: (state) => {
       state.position = null;
     },
@@ -123,45 +129,21 @@ export const userSlice = createSlice({
     },
     [postLogin.fulfilled]: (state, action) => {
       console.log(action.payload);
-      if (action.payload.state == "failed") {
+      if (action.payload.state === "failed") {
         state.status = "failed";
         return;
       }
       localStorage.setItem("token", action.payload.jwt);
       state = Object.assign(state, action.payload.user, { status: "success" });
-      // const {
-      //   firstname,
-      //   lastname,
-      //   username,
-      //   avatar,
-      //   dateOfBirth,
-      //   email,
-      //   firstTimeLogged,
-      //   gender,
-      //   lookingFor,
-      //   photos,
-      //   position,
-      //   positionSelected,
-      //   profileCompleted,
-      // } = action.payload.user;
-      // return {
-      //   ...state,
-      //   status: "success",
-      //   firstname,
-      //   lastname,
-      //   username,
-      //   avatar,
-      //   dateOfBirth,
-      //   email,
-      //   firstTimeLogged,
-      //   gender,
-      //   lookingFor,
-      //   photos: [...photos],
-      //   position: [...position],
-      //   positionSelected,
-      //   profileCompleted,
-      //   logged: true,
-      // };
+    },
+    [changePositionRequest.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [changePositionRequest.fulfilled]: (state, action) => {
+      state = Object.assign(
+        state,
+        { position: [...action.payload.position],  status: "success", positionSelected: action.payload.positionSelected},
+      );
     },
   },
 });
@@ -189,7 +171,7 @@ export const {
   resetUser,
   setPositionSelected,
   removePhoto,
-  addRating
+  addRating,
 } = userSlice.actions;
 
 // export default userSlice.reducer;

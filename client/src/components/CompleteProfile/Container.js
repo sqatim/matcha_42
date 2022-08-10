@@ -43,14 +43,12 @@ const handleNext = (
   }
   if (check && step < 2) setStep(step + 1);
   if (step == 2) {
-    // console.log("position: ", completeProfile.position);
     let formData = new FormData();
     photos.map((element) => formData.append("file", element));
     formData.append("gender", completeProfile.gender);
     formData.append("lookingFor", completeProfile.lookingFor);
     completeProfile.tags.map((element) => formData.append("tags", element));
     formData.append("biography", completeProfile.biography);
-    // formData.append("position", completeProfile.position);
     console.log(completeProfile.tags);
     if (completeProfile.position == null) {
       axios

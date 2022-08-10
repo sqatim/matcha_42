@@ -420,3 +420,57 @@ export const ProfileMapStyle = styled.div`
     }
   }
 `;
+
+export const ProfileEditMapStyle = styled.div`
+height: 100%;
+padding: 0 4rem;
+position: relative;
+
+.map__buttons {
+    position: absolute;
+    bottom: 6.5rem;
+    right: 4.5rem;
+    z-index: 1000;
+    .map__geolocate {
+      margin-bottom: 0.3rem;
+    }
+    .map__geolocate,
+    .map__geolocate_off {
+      background-color: #fff;
+      width: 40px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  }
+.profileMapEdit__saveButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+    button {
+      background-color: #fff;
+      width: 160px;
+      height: 50px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+      border: none;
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .profileMapEdit__saveButton_cancel {
+      color: #0c7fda;
+    }
+    .profileMapEdit__saveButton_save {
+      background-color: #0c7fda;
+    }
+  }
+`;
