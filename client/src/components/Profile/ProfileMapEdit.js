@@ -15,6 +15,8 @@ import {
 } from "../../state/userSlice";
 import { useState } from "react";
 import { useEffect } from "react";
+import { setStatus} from "../../state/userSlice";
+
 
 function LocationMarker({
   position,
@@ -75,7 +77,10 @@ export default function ProfileMapEdit({ setEdit }) {
   };
   useEffect(() => {
     if(status ==='success')
+    {
+      dispatch(setStatus(null))
       setEdit(false);
+    }
   },[status])
   return (
     <ProfileEditMapStyle>

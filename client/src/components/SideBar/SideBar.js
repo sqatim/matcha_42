@@ -18,10 +18,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../../state/userSlice";
 
 const list = [
-  { icon: BrowseSvg, text: "Browse" },
-  { icon: FriendsSvg, text: "Friends" },
-  { icon: MessagesSvg, text: "Messages" },
-  { icon: NotificationsSvg, text: "Notifications" },
+  { icon: BrowseSvg, text: "Browse", path: "/browse" },
+  { icon: FriendsSvg, text: "Friends", path: "/friends" },
+  { icon: MessagesSvg, text: "Messages", path: "/messages" },
+  { icon: NotificationsSvg, text: "Notifications", path: "/notifications" },
 ];
 
 export default function SideBar({ name, setName }) {
@@ -31,7 +31,12 @@ export default function SideBar({ name, setName }) {
   return (
     <SideBarStyle>
       <img className="matchaLogo" src={Logo} alt="logo" width={200} />
-      <InfoStyle onClick={() => setName("Profile")}>
+      <InfoStyle
+        onClick={() => {
+          setName("Profile");
+          navigate('/profile', { replace: true });
+        }}
+      >
         <img src={avatar} alt="" />
         <p>{username}</p>
       </InfoStyle>
@@ -40,7 +45,10 @@ export default function SideBar({ name, setName }) {
           <ItemListStyle
             key={key}
             check={name == element.text}
-            onClick={() => setName(element.text)}
+            onClick={() => {
+              setName(element.text);
+              navigate(element.path, { replace: true });
+            }}
           >
             <element.icon check={name == element.text} />
             <p>{element.text}</p>

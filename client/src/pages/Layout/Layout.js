@@ -36,7 +36,6 @@ export default function Layout({ children }) {
   return !loading ? (
     <LayoutStyle>
       <SideBar name={name} setName={setName} />
-      {/* <AvatarModal/> */}
       {user.firstTimeLogged ? (
       <AvatarModal/>
       ) : (

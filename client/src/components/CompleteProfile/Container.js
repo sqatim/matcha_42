@@ -74,7 +74,7 @@ const handleNext = (
         })
         .catch(() => console.log("jerreura"));
     } else {
-      formData.append("position", completeProfile.position);
+      completeProfile.position.map((element) => formData.append("position", element));
       formData.append("positionSelected", true);
       axios
         .post("http://localhost:3001/profile/completeProfile", formData, {
@@ -86,6 +86,9 @@ const handleNext = (
           console.log(value.data);
           dispatchData(dispatch, value.data, navigate);
           navigate("/Profile", { replace: true });
+        })
+        .catch(() => {
+          console.log("jayden");
         });
     }
   }

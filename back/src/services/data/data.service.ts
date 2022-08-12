@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CheckUserDto, CreateUserDto } from 'src/core/dto/User.dto';
+import { FriendsService } from '../use-cases/friends/friends.service';
 import { UserService } from '../use-cases/user/user.service';
 
 @Injectable()
@@ -8,7 +9,8 @@ export class DataService {
   constructor(
     private readonly jwtService: JwtService,
     private userService: UserService,
-  ) { }
+    private friendService: FriendsService,
+  ) {}
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
@@ -61,7 +63,8 @@ export class DataService {
     let photos = [];
     let position = [];
     file.map((element) => photos.push(element.filename));
-    body.position.map(element => position.push(element));
+    console.log(body);
+    body.position.map((element) => position.push(element));
     Object.assign(user, body);
     Object.assign(user, { photos });
     Object.assign(user, { position });
@@ -98,7 +101,7 @@ export class DataService {
   async addPhotos(id, files) {
     const user = await this.userService.findMyProfileByid(id);
     let photos = user.photos;
-    files.map(element => photos.push(element.filename))
+    files.map((element) => photos.push(element.filename));
     console.log(photos);
     Object.assign(user, { photos });
     user.save();
@@ -147,7 +150,10 @@ export class DataService {
   async updatePosition(id, body) {
     const user = await this.userService.findMyProfileByid(id);
 
-    Object.assign(user, { position: body.position, positionSelected: body.positionSelected });
+    Object.assign(user, {
+      position: body.position,
+      positionSelected: body.positionSelected,
+    });
     console.log(body);
     user.save();
     return {
@@ -159,9 +165,43 @@ export class DataService {
   async removePhoto(id, photoId) {
     const user = await this.userService.findMyPhotosProfileByid(id);
     console.log(user.photos);
-    const photos = user.photos.filter(element => element != photoId);
+    const photos = user.photos.filter((element) => element != photoId);
     Object.assign(user, { photos });
     user.save();
     return user;
   }
+
+  // Friends
+  async addFriendRequest(myId, friendId) {
+    const myDocument = await this.friendService.sendRequest(myId, friendId);
+    const friendDocument = await this.friendService.pendingRequest(
+      friendId,
+      myId,
+    );
+    console.log(myDocument)
+    console.log(friendDocument)
+    await this.userService.updateFriendRequest(myId, myDocument);
+    await this.userService.updateFriendRequest(friendId, friendDocument);
+  }
+
+  async acceptFriendRequest(myId, friendId) {
+    await this.friendService.acceptFriendRequest(myId, friendId);
+    await this.friendService.acceptFriendRequest(friendId, myId);
+  }
+
+  async removeFriend(myId, friendId) {
+    const myDocument = await this.friendService.removeFriend(myId, friendId);
+    const friendDocument = await this.friendService.removeFriend(
+      friendId,
+      myId,
+    );
+    await this.userService.updateRemoveFriend(myId, myDocument);
+    await this.userService.updateRemoveFriend(friendId, friendDocument);
+  }
+
+  async findMyFriends(id)
+  {
+    return await this.friendService.findMyFriends(id);
+  }
+
 }

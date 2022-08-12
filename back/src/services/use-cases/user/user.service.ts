@@ -34,4 +34,18 @@ export class UserService {
       .findOne({ $or: [{ username: user.username }, { email: user.email }] })
       .exec();
   }
+
+  async updateFriendRequest(id, friendDocument) {
+    return await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { $push: { friends: friendDocument._id } },
+    );
+  }
+  async updateRemoveFriend(id, friendDocument) {
+    return await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { $pull: { friends: friendDocument._id } },
+    );
+  }
+
 }

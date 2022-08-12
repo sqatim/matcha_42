@@ -12,7 +12,7 @@ import GpsOffIcon from "../../assets/icons/CompleteProfile/GpsOffIcon.svg";
 function LocationMarker() {
   const dispatch = useDispatch();
   const { position } = useSelector((state) => state.completeProfile);
-  console.log(position);
+  // console.log(position);
   const map = useMap();
 
   if (position) {

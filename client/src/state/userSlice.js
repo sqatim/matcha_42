@@ -121,6 +121,9 @@ export const userSlice = createSlice({
     setPositionSelected: (state, action) => {
       state.positionSelected = action.payload;
     },
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
     resetUser: () => initialState,
   },
   extraReducers: {
@@ -172,6 +175,7 @@ export const {
   setPositionSelected,
   removePhoto,
   addRating,
+  setStatus
 } = userSlice.actions;
 
 // export default userSlice.reducer;

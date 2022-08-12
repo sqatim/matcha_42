@@ -22,8 +22,7 @@ import { UserService } from 'src/services/use-cases/user/user.service';
 export class ProfileController {
   constructor(
     private readonly dataService: DataService,
-    private readonly userService: UserService,
-  ) { }
+  ) {}
   @Get()
   findAll() {
     return 'This action returns all cats';
@@ -57,7 +56,10 @@ export class ProfileController {
   @Post('me/photos')
   @UseInterceptors(FilesInterceptor('file', 5, saveImageToStorage))
   @UseGuards(JwtAuthGuard)
-  async addPhotos(@Req() req, @UploadedFiles() files: Array<Express.Multer.File>,) {
+  async addPhotos(
+    @Req() req,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
     return await this.dataService.addPhotos(req.user.id, files);
   }
   @Put('me/Avatar')

@@ -8,15 +8,23 @@ import { DataModule } from './services/data/data.module';
 import { DataService } from './services/data/data.service';
 import { UsersController } from './interface-adapters/controllers/users.controller';
 import { ProfileController } from './interface-adapters/controllers/profile.controller';
-import { join } from 'path';
+import { FriendsModule } from './services/use-cases/friends/friends.module';
+import { FriendsController } from './interface-adapters/controllers/friends.controller';
 
 @Module({
-  imports: [MongoModule, UserModule, AuthModule, DataModule, 
-  //   ServeStaticModule.forRoot({
-  //   serveRoot: join(__dirname, '..', 'upload')
-  // })
-],
-  controllers: [AppController, UsersController, ProfileController],
+  imports: [
+    MongoModule,
+    UserModule,
+    AuthModule,
+    DataModule,
+    FriendsModule,
+  ],
+  controllers: [
+    AppController,
+    UsersController,
+    ProfileController,
+    FriendsController,
+  ],
   providers: [AppService, DataService],
 })
 export class AppModule {}

@@ -7,6 +7,7 @@ import Friends from "../../pages/Friends/Friends";
 import Layout from "../../pages/Layout/Layout";
 import Login from "../../pages/Login/Login";
 import Messages from "../../pages/Messages/Messages";
+import Notifications from "../../pages/Notifications/Notifications";
 import Profile from "../../pages/Profile/Profile";
 
 // const Logged = () => {
@@ -27,6 +28,7 @@ export default function Routing() {
           <Route path="friends" element={<Friends />} />
           <Route path="profile" element={<Profile />} />
           <Route path="messages" element={<Messages />} />
+          <Route path="notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </Router>
