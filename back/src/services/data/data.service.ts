@@ -78,6 +78,11 @@ export class DataService {
     return user;
   }
 
+  async findUserData(username) {
+    const user = await this.userService.findProfileOfUserByUsername(username);
+    return user;
+  }
+
   async firstTimeLogged(id) {
     const user = await this.userService.findMyProfileByid(id);
     Object.assign(user, { firstTimeLogged: false });
@@ -178,8 +183,8 @@ export class DataService {
       friendId,
       myId,
     );
-    console.log(myDocument)
-    console.log(friendDocument)
+    console.log(myDocument);
+    console.log(friendDocument);
     await this.userService.updateFriendRequest(myId, myDocument);
     await this.userService.updateFriendRequest(friendId, friendDocument);
   }
@@ -199,9 +204,7 @@ export class DataService {
     await this.userService.updateRemoveFriend(friendId, friendDocument);
   }
 
-  async findMyFriends(id, query)
-  {
+  async findMyFriends(id, query) {
     return await this.friendService.findMyFriends(id, query);
   }
-
 }

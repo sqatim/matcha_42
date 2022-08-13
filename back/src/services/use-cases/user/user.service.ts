@@ -23,6 +23,10 @@ export class UserService {
   async findUserByid(id: string) {
     return await this.userModel.findById(id).exec();
   }
+
+  async findProfileOfUserByUsername(id: string) {
+    return await this.userModel.findOne({ username: id }, '-password').exec();
+  }
   async findMyProfileByid(id: string) {
     return await this.userModel.findById(id, '-password').exec();
   }
@@ -47,5 +51,4 @@ export class UserService {
       { $pull: { friends: friendDocument._id } },
     );
   }
-
 }

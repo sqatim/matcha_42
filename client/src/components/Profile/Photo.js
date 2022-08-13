@@ -53,7 +53,7 @@ const DeleteModal = ({ element }) => {
   );
 };
 
-export default function Photo({ element }) {
+export default function Photo({ element, otherUser}) {
   const effectRun = useRef(true);
   // useEffect(() => {
   //   if(effectRun)
@@ -67,7 +67,10 @@ export default function Photo({ element }) {
   return (
     <div className="photo__card">
       <img src={`http://localhost:3001/upload/${element}`} />
+      {
+        !otherUser && 
       <DeleteModal element={element} />
+      }
     </div>
   );
 }

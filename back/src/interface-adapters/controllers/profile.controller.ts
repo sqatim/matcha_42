@@ -47,6 +47,12 @@ export class ProfileController {
     return await this.dataService.findMyData(req.user.id);
   }
 
+  @Get(':username')
+  @UseGuards(JwtAuthGuard)
+  async FindUserProfile(@Param('username') username) {
+    return await this.dataService.findUserData(username); // TODO hadi khasni n9adha 
+  }
+
   @Put('me/firstTimeLogged')
   @UseGuards(JwtAuthGuard)
   async firstTimeLogged(@Req() req) {

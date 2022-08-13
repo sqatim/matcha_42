@@ -1,22 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const names = ["Details", "Galery", "Map", "History"];
+const namesArr = ["Details", "Galery", "Map", "History"];
 
-export default function ProfileBar({ choice, setChoise }) {
+export default function ProfileBar({ choice, setChoise, otherUser }) {
+  const [names, setNames] = useState([]);
+  useEffect(() => {
+    if (otherUser) {
+      setNames(["Details", "Galery", "Map"]);
+    } else {
+      setNames([...namesArr]);
+    }
+  }, []);
   return (
     <ProfileBarStyle>
       <ul>
-        {names.map((element, key) => (
-          <ProfileBarItemsStyle
-            key={key}
-            check={choice == element}
-            onClick={() => setChoise(element)}
-          >
-            {element}
-            <hr />
-          </ProfileBarItemsStyle>
-        ))}
+        {names.length > 0 &&
+          names.map((element, key) => (
+            <ProfileBarItemsStyle
+              key={key}
+              check={choice == element}
+              onClick={() => setChoise(element)}
+            >
+              {element}
+              <hr />
+            </ProfileBarItemsStyle>
+          ))}
       </ul>
     </ProfileBarStyle>
   );

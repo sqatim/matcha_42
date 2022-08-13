@@ -6,11 +6,11 @@ import {
   ProfileInformationDetailsStyle,
   ProfileInformationInterestsStyle,
 } from "./ProfileContent.style";
-import { Rate } from 'antd';
+import { Rate } from "antd";
 import ProfileAvatar from "./ProfileAvatar";
+import { useParams } from "react-router-dom";
 
-
-export default function ProfileInformationContent() {
+export default function ProfileInformationContent({ otherUser, userData }) {
   const {
     avatar,
     firstname,
@@ -20,35 +20,37 @@ export default function ProfileInformationContent() {
     dateOfBirth,
     tags,
     biography,
-    rating
+    rating,
   } = useSelector((state) => state.user);
   const [age, setAge] = useState("");
-
+  const { id } = useParams();
   useEffect(() => {
     function getAge(dateString) {
       var ageInMilliseconds = new Date() - new Date(dateString);
       return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365);
     }
-    setAge(getAge(dateOfBirth));
+    setAge(getAge(otherUser ? userData.dateOfBirth: dateOfBirth));
+    console.log("id: ", id);
   }, []);
   return (
     <div className="ProfileContent__content">
       <ProfileInformationDetailsStyle>
-        <ProfileAvatar avatar={avatar}/>
+        <ProfileAvatar avatar={otherUser ? userData.avatar: avatar} />
         <div className="details">
           <div className="details__info">
             <p>Username</p>
-            <p>{username}</p>
+            <p>{otherUser ? userData.username : username}</p>
           </div>
           <div className="details__info">
             <p>Full Name</p>
             <p>
-              {firstname} {lastname}
+              {otherUser ? userData.firstname : firstname}{" "}
+              {otherUser ? userData.lastname : lastname}
             </p>
           </div>
           <div className="details__info">
             <p>Gender</p>
-            <p>{gender}</p>
+            <p>{otherUser ? userData.gender : gender}</p>
           </div>
           <div className="details__info">
             <p>Age</p>
@@ -56,22 +58,34 @@ export default function ProfileInformationContent() {
           </div>
           <div className="details__info">
             <p>Rating</p>
-            <Rate allowHalf disabled  defaultValue={rating} />
+            <Rate
+              allowHalf
+              disabled
+              defaultValue={otherUser ? userData.rating : rating}
+            />
           </div>
         </div>
       </ProfileInformationDetailsStyle>
       <ProfileInormationBiographyStyle>
         <p className="profileInformation__biography">Biography</p>
-        <p className="profileInformation__biography_text">{biography}</p>
+        <p className="profileInformation__biography_text">
+          {otherUser ? userData.biography : biography}
+        </p>
       </ProfileInormationBiographyStyle>
       <ProfileInformationInterestsStyle>
         <p className="profileInformation__tags">List of interests</p>
         <div className="profileInformation__tags_div">
-          {tags.map((element, key) => (
-            <p key={key} className="profileInformation__tags_text">
-              #{element}
-            </p>
-          ))}
+          {otherUser
+            ? userData.tags.map((element, key) => (
+                <p key={key} className="profileInformation__tags_text">
+                  #{element}
+                </p>
+              ))
+            : tags.map((element, key) => (
+                <p key={key} className="profileInformation__tags_text">
+                  #{element}
+                </p>
+              ))}
         </div>
       </ProfileInformationInterestsStyle>
     </div>

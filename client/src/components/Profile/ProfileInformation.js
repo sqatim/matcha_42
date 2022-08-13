@@ -16,9 +16,12 @@ const ComponentType = ({ type, setEdit }) => {
   return <Component setEdit={setEdit} />;
 };
 
-export default function ProfileInformation() {
+export default function ProfileInformation({ otherUser, userData }) {
   const [edit, setEdit] = useState(false);
   const [type, setType] = useState("");
+  useEffect(() => {
+    console.log(userData);
+  }, []);
   return (
     <ProfileContentStyle>
       {!edit && (
@@ -48,7 +51,7 @@ export default function ProfileInformation() {
 
       <div>
         {!edit ? (
-          <ProfileInformationContent />
+          <ProfileInformationContent otherUser={otherUser} userData={userData}/>
         ) : (
           <ComponentType type={type} setEdit={setEdit} />
         )}

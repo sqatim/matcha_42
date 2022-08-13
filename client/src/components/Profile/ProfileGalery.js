@@ -12,22 +12,23 @@ import { setPhotos } from "../../state/userSlice";
 
 const handleClick = (event, dispatch) => {
   const files = event.target.files;
-  let formData =  new FormData();
+  let formData = new FormData();
   Object.keys(files).map((key, index) => {
     formData.append("file", files[key]);
   });
-  axios.post("http://localhost:3001/profile/me/photos", formData, {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  })
-  .then((value) => {
-    console.log(value.data)
-    dispatch(setPhotos(value.data.photos))
-  });
+  axios
+    .post("http://localhost:3001/profile/me/photos", formData, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then((value) => {
+      console.log(value.data);
+      dispatch(setPhotos(value.data.photos));
+    });
 };
 
-export default function ProfileGalery() {
+export default function ProfileGalery({ otherUser, userData }) {
   const { photos } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -36,10 +37,12 @@ export default function ProfileGalery() {
   return (
     <ProfileContentStyle>
       <ProfileGaleryStyle>
-        {photos.map((element, key) => (
-          <Photo key={key} element={element} />
-        ))}
-        {photos.length < 5 && (
+        {otherUser
+          ? userData.photos.map((element, key) => (
+              <Photo key={key} element={element} otherUser={otherUser}/>
+            ))
+          : photos.map((element, key) => <Photo key={key} element={element} />)}
+        {!otherUser && photos.length < 5 && (
           <AddProfilePhotosStyle>
             <label htmlFor="file">
               <img src={UploadPhotosIcon} />

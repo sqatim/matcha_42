@@ -27,6 +27,7 @@ export default function Routing() {
           <Route path="browse" element={<Browse />} />
           <Route path="friends" element={<Friends />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/:id" element={<Profile />} />
           <Route path="messages" element={<Messages />} />
           <Route path="notifications" element={<Notifications />} />
         </Route>
