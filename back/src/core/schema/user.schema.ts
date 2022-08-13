@@ -62,6 +62,9 @@ export class User {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Friends' }] })
   friends: Friends[];
+
+  @Prop({ default: 'Offline' })
+  status: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -199,9 +199,9 @@ export class DataService {
     await this.userService.updateRemoveFriend(friendId, friendDocument);
   }
 
-  async findMyFriends(id)
+  async findMyFriends(id, query)
   {
-    return await this.friendService.findMyFriends(id);
+    return await this.friendService.findMyFriends(id, query);
   }
 
 }

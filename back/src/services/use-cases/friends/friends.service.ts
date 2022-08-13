@@ -7,7 +7,7 @@ import { FriendsDocument, StatusType } from 'src/core/schema/friends.schema';
 export class FriendsService {
   constructor(
     @InjectModel('Friends') private friendsModel: Model<FriendsDocument>,
-  ) {}
+  ) { }
 
   async findDocument(userA, userB) {
     return await this.friendsModel
@@ -51,10 +51,24 @@ export class FriendsService {
       recipient: userB,
     });
   }
-  async findMyFriends(myId) {
-    return await this.friendsModel
-      .find({ requester: myId, status: StatusType.FRIENDS })
-      .populate('recipient', 'firstname lastname username avatar')
-      .exec();
+  async findMyFriends(myId, query) {
+    if (query.limit) {
+      if (query.offset)
+        return await this.friendsModel
+          .find({ requester: myId, status: StatusType.FRIENDS })
+          .populate('recipient', 'firstname lastname username avatar status').skip(query.offset).limit(query.limit)
+          .exec();
+      else
+        return await this.friendsModel
+          .find({ requester: myId, status: StatusType.FRIENDS })
+          .populate('recipient', 'firstname lastname username avatar status').limit(query.limit)
+          .exec();
+
+    }
+    else
+      return await this.friendsModel
+        .find({ requester: myId, status: StatusType.FRIENDS })
+        .populate('recipient', 'firstname lastname username avatar status')
+        .exec();
   }
 }

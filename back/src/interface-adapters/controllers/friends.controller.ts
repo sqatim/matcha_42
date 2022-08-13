@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -16,9 +17,10 @@ export class FriendsController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async findMyFriends(@Req() req)
+  async findMyFriends(@Req() req, @Query() query)
   {
-    return this.dataService.findMyFriends(req.user.id);
+    console.log(query);
+    return this.dataService.findMyFriends(req.user.id, query);
   }
 
   @Post('me/addFriend/:friendId')
