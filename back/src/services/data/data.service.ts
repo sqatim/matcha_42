@@ -10,7 +10,7 @@ export class DataService {
     private readonly jwtService: JwtService,
     private userService: UserService,
     private friendService: FriendsService,
-  ) {}
+  ) { }
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
@@ -189,6 +189,13 @@ export class DataService {
     await this.userService.updateFriendRequest(friendId, friendDocument);
   }
 
+  async retrieveType(myId, userId) {
+    const document = await this.friendService.findDocument(myId, userId);
+    console.log(document);
+    if (document == null)
+      return { status: 'add' }
+    return document;
+  }
   async acceptFriendRequest(myId, friendId) {
     await this.friendService.acceptFriendRequest(myId, friendId);
     await this.friendService.acceptFriendRequest(friendId, myId);
@@ -202,6 +209,13 @@ export class DataService {
     );
     await this.userService.updateRemoveFriend(myId, myDocument);
     await this.userService.updateRemoveFriend(friendId, friendDocument);
+  }
+  async cancelRequest(myId, friendId) {
+    const myDocument = await this.friendService.removeFriend(myId, friendId);
+    const friendDocument = await this.friendService.removeFriend(
+      friendId,
+      myId,
+    );
   }
 
   async findMyFriends(id, query) {

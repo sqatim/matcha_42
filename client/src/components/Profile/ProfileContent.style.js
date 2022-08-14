@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ProfileContentStyle = styled.div`
   width: 100%;
@@ -42,6 +42,68 @@ export const ProfileContentStyle = styled.div`
   }
 `;
 
+export const UserProfileButtonsStyle = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
+  margin-right: 1rem;
+  .UserProfileContent__button_child {
+    padding: 0 1rem;
+    display: flex;
+    gap: 0.6rem;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    p {
+      font-weight: 400;
+      font-size: 18px;
+    }
+    i {
+      font-size: 18px;
+      margin-top: 0.1rem;
+    }
+  }
+  .friend {
+    ${({ type }) => {
+      if (type == "Add" || type == "Cancel" || type == "Pending")
+        return css`
+          background: #0c7fda;
+        `;
+      else if (type == "Friends")
+        return css`
+          background: #fff;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+        `;
+    }}
+    p,
+    i {
+      color: ${({ type }) => type !== "Friends" && "#FFF"};
+    }
+  }
+  .message {
+    ${({ type }) => {
+      if (type == "Add" || type == "Pending")
+        return css`
+          background: #fff;
+          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+        `;
+      else
+        return css`
+          background: #0c7fda;
+        `;
+    }}
+    p,
+    i {
+      color: ${({ type }) => type !== "Add" && type !== "Pending" && "#FFF"};
+    }
+  }
+  .decline {
+    background: #fff;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  }
+`;
 export const ProfileInformationEditStyle = styled.div`
   width: 100%;
   height: 100%;
@@ -215,11 +277,11 @@ export const ProfileAvatarStyle = styled.div`
   border-radius: 50%;
   border: 4px solid #000;
   position: relative;
-  img{
+  img {
     width: 100%;
     height: 100%;
   }
-  .ProfileAvatar__edit{
+  .ProfileAvatar__edit {
     background-color: #fff;
     position: absolute;
     width: 40px;
@@ -232,12 +294,34 @@ export const ProfileAvatarStyle = styled.div`
     justify-content: center;
     cursor: pointer;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.12);
-    i{
+    i {
       width: 24px;
       height: 24px;
       font-size: 170%;
       transform: translate(0%, -10%);
     }
+  }
+`;
+
+export const ProfileAvatarStatusStyle = styled.div`
+  background-color: #fff;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  right: -9px;
+  bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.12); */
+  padding: 0.3rem;
+  div {
+    width: 100%;
+    height: 100%;
+    background-color: ${({ status }) =>
+      status == "Online" ? "#10C538" : "#FF0000"};
+    border-radius: 50%;
   }
 `;
 
@@ -422,11 +506,11 @@ export const ProfileMapStyle = styled.div`
 `;
 
 export const ProfileEditMapStyle = styled.div`
-height: 100%;
-padding: 0 4rem;
-position: relative;
+  height: 100%;
+  padding: 0 4rem;
+  position: relative;
 
-.map__buttons {
+  .map__buttons {
     position: absolute;
     bottom: 6.5rem;
     right: 4.5rem;
@@ -448,7 +532,7 @@ position: relative;
       z-index: 1000;
     }
   }
-.profileMapEdit__saveButton {
+  .profileMapEdit__saveButton {
     width: 100%;
     display: flex;
     justify-content: space-around;

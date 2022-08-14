@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ProfileContentStyle } from "./ProfileContent.style";
+import {
+  ProfileContentStyle,
+} from "./ProfileContent.style";
 import ProfileEditPassword from "./ProfileEditPassword";
 import ProfileInformationContent from "./ProfileInformationContent";
 import ProfileInformationEdit from "./ProfileInformationEdit";
+import UserProfileButtons from "./UserProfileButtons";
 
 // const tags = ["E_sport", "Football", "Books", "Travel", "Stroll"];
 
@@ -19,12 +22,10 @@ const ComponentType = ({ type, setEdit }) => {
 export default function ProfileInformation({ otherUser, userData }) {
   const [edit, setEdit] = useState(false);
   const [type, setType] = useState("");
-  useEffect(() => {
-    console.log(userData);
-  }, []);
+  const { username } = useSelector((state) => state.user);
   return (
     <ProfileContentStyle>
-      {!edit && (
+      {otherUser == username && !edit && (
         <div className="ProfileContent__edit">
           <div
             className="ProfileContent__edit_child"
@@ -48,10 +49,13 @@ export default function ProfileInformation({ otherUser, userData }) {
           </div>
         </div>
       )}
-
+      {otherUser != username && <UserProfileButtons id={userData._id}/>}
       <div>
         {!edit ? (
-          <ProfileInformationContent otherUser={otherUser} userData={userData}/>
+          <ProfileInformationContent
+            otherUser={otherUser}
+            userData={userData}
+          />
         ) : (
           <ComponentType type={type} setEdit={setEdit} />
         )}

@@ -10,7 +10,6 @@ import { URL } from "../../utils/fetchData";
 import { ProfileStyle } from "./Profile.style";
 
 const ProfileContent = ({ choice, otherUser, userData }) => {
-  const [loading, setLoading] = useState(true);
   switch (choice) {
     case "Details":
       return <ProfileInformation otherUser={otherUser} userData={userData} />;
@@ -24,14 +23,12 @@ const ProfileContent = ({ choice, otherUser, userData }) => {
 export default function Profile() {
   const [choice, setChoise] = useState("Details");
   const [otherUser, setOtherUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const { username } = useSelector((state) => state.user);
   const [userData, setUserData] = useState({});
 
   const { id } = useParams();
   useEffect(() => {
     if (id && id != username) {
-      setOtherUser(id);
       axios
         .get(`${URL}/profile/${id}`, {
           headers: {
@@ -40,21 +37,25 @@ export default function Profile() {
         })
         .then(({ data }) => {
           setUserData({ ...data });
-          console.log("salam samir");
-          setLoading(false);
+          setOtherUser(id);
         });
-    } else setLoading(false);
-  }, []);
+    } else {
+      setOtherUser(id);
+      setUserData({});
+    }
+    setChoise("Details");
+  }, [id]);
   return (
     <ProfileStyle>
-      {!loading && (
+      {otherUser && (
         <ProfileBar
           choice={choice}
           setChoise={setChoise}
           otherUser={otherUser}
+          username={username}
         />
       )}
-      {!loading && (
+      {otherUser && (
         <ProfileContent
           choice={choice}
           otherUser={otherUser}

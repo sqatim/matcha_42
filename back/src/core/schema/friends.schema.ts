@@ -6,7 +6,7 @@ export type FriendsDocument = Friends & Document;
 
 export enum StatusType {
   ADD = 'add',
-  PUBLIC = 'requested',
+  REQUESTED = 'requested',
   PENDING = 'pending',
   FRIENDS = 'friends',
 }

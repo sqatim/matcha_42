@@ -23,6 +23,13 @@ export class FriendsController {
     return this.dataService.findMyFriends(req.user.id, query);
   }
 
+  @Get('me/type/:userId')
+  @UseGuards(JwtAuthGuard)
+  async retrieveType(@Req() req, @Param("userId") userId)
+  {
+    return await this.dataService.retrieveType(req.user.id, userId);
+  }
+
   @Post('me/addFriend/:friendId')
   @UseGuards(JwtAuthGuard)
   async addFriend(@Req() req, @Param('friendId') friendId) {
@@ -39,5 +46,10 @@ export class FriendsController {
   @UseGuards(JwtAuthGuard)
   async removeFriend(@Req() req, @Param('friendId') friendId) {
     await this.dataService.removeFriend(req.user.id, friendId);
+  }
+  @Delete('me/cancelRequest/:friendId')
+  @UseGuards(JwtAuthGuard)
+  async cancelRequest(@Req() req, @Param('friendId') friendId) {
+    await this.dataService.cancelRequest(req.user.id, friendId);
   }
 }

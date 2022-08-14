@@ -34,7 +34,7 @@ export default function SideBar({ name, setName }) {
       <InfoStyle
         onClick={() => {
           setName("Profile");
-          navigate('/profile', { replace: true });
+          navigate(`/profile/${username}`, { replace: true });
         }}
       >
         <img src={avatar} alt="" />

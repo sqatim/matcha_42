@@ -65,11 +65,11 @@ const handleNext = (
                 Authorization: "Bearer " + localStorage.getItem("token"),
               },
             })
-            .then((value) => {
+            .then(({data}) => {
               console.log("wa samir");
               console.log(value.data);
-              dispatchData(dispatch, value.data, navigate);
-              navigate("/Profile", { replace: true });
+              dispatchData(dispatch, data, navigate);
+              navigate(`/Profile/${data.username}`, { replace: true });
             });
         })
         .catch(() => console.log("jerreura"));
@@ -82,13 +82,11 @@ const handleNext = (
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
-        .then((value) => {
-          console.log(value.data);
-          dispatchData(dispatch, value.data, navigate);
-          navigate("/Profile", { replace: true });
+        .then(({data}) => {
+          dispatchData(dispatch, data, navigate);
+          navigate(`/Profile/${data.username}`, { replace: true });
         })
         .catch(() => {
-          console.log("jayden");
         });
     }
   }

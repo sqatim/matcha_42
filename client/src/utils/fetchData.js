@@ -32,7 +32,10 @@ export const setPositionRequest = async (data) => {
           },
         }
       )
-      .then((value) => ({position: value.data.user.position, positionSelected: value.data.user.positionSelected}));
+      .then((value) => ({
+        position: value.data.user.position,
+        positionSelected: value.data.user.positionSelected,
+      }));
   } else {
     result = await axios
       .put(
@@ -44,7 +47,72 @@ export const setPositionRequest = async (data) => {
           },
         }
       )
-      .then((value) => ({position: value.data.user.position, positionSelected: value.data.user.positionSelected}));
+      .then((value) => ({
+        position: value.data.user.position,
+        positionSelected: value.data.user.positionSelected,
+      }));
   }
   return result;
+};
+
+export const likeRequest = (id, setType) => {
+  axios
+    .post(
+      `${URL}/friends/me/addFriend/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(({ data }) => {
+      setType("Cancel");
+    });
+};
+export const matchRequest = (id, setType) => {
+  axios
+    .post(
+      `${URL}/friends/me/acceptFriend/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(({ data }) => {
+      // console.log(data);
+      setType("Friends");
+    });
+};
+export const cancelRequest = (id, setType) => {
+  axios
+    .delete(
+      `${URL}/friends/me/cancelRequest/${id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(({ data }) => {
+      console.log('wa fen a sanmir');
+      setType("Add");
+    });
+};
+export const removeFriendRequest = (id, setType) => {
+  axios
+    .delete(
+      `${URL}/friends/me/removeFriend/${id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(({ data }) => {
+      console.log('wa fen a sanmir');
+      setType("Add");
+    });
 };

@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 const namesArr = ["Details", "Galery", "Map", "History"];
 
-export default function ProfileBar({ choice, setChoise, otherUser }) {
+export default function ProfileBar({ choice, setChoise, otherUser, username }) {
   const [names, setNames] = useState([]);
   useEffect(() => {
-    if (otherUser) {
+    if (otherUser != username) {
       setNames(["Details", "Galery", "Map"]);
     } else {
       setNames([...namesArr]);
     }
-  }, []);
+  }, [otherUser]);
   return (
     <ProfileBarStyle>
       <ul>

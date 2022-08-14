@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { ProfileContentStyle} from "./ProfileContent.style";
+import { useSelector } from "react-redux";
+import { ProfileContentStyle } from "./ProfileContent.style";
 import ProfileMapContent from "./ProfileMapContent";
 import ProfileMapEdit from "./ProfileMapEdit";
 
-
-export default function ProfileMap() {
+export default function ProfileMap({ otherUser, userData }) {
   const [edit, setEdit] = useState(false);
+  const { username } = useSelector((state) => state.user);
 
   return (
     <ProfileContentStyle>
-      {!edit && (
+      {otherUser == username && !edit && (
         <div className="ProfileContent__edit">
           <div
             className="ProfileContent__edit_child"
@@ -22,7 +23,11 @@ export default function ProfileMap() {
           </div>
         </div>
       )}
-      {!edit ? <ProfileMapContent /> : <ProfileMapEdit setEdit={setEdit}/>}
+      {otherUser && !edit ? (
+        <ProfileMapContent otherUser={otherUser} userData={userData} />
+      ) : (
+        <ProfileMapEdit setEdit={setEdit} />
+      )}
     </ProfileContentStyle>
   );
 }

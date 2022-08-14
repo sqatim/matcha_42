@@ -23,23 +23,19 @@ const handleClick = (event, dispatch) => {
       },
     })
     .then((value) => {
-      console.log(value.data);
       dispatch(setPhotos(value.data.photos));
     });
 };
 
 export default function ProfileGalery({ otherUser, userData }) {
-  const { photos } = useSelector((state) => state.user);
+  const { photos, username } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(photos);
-  }, []);
   return (
     <ProfileContentStyle>
       <ProfileGaleryStyle>
-        {otherUser
+        {otherUser != username
           ? userData.photos.map((element, key) => (
-              <Photo key={key} element={element} otherUser={otherUser}/>
+              <Photo key={key} element={element} otherUser={otherUser} />
             ))
           : photos.map((element, key) => <Photo key={key} element={element} />)}
         {!otherUser && photos.length < 5 && (

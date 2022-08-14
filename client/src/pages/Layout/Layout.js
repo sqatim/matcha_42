@@ -25,7 +25,6 @@ export default function Layout({ children }) {
           },
         })
         .then((value) => {
-          console.log(value.data);
           dispatchData(dispatch, value.data, navigate);
           setLoading(false);
         })

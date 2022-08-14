@@ -23,7 +23,7 @@ export class FriendsService {
         requester: userA,
         recipient: userB,
       },
-      { $set: { status: StatusType.ADD } },
+      { $set: { status: StatusType.REQUESTED } },
       { upsert: true, new: true },
     );
   }

@@ -47,7 +47,7 @@ export default function RegisterForm({ setIsModalVisible }) {
           registerNotification(value.data.user.username.toUpperCase());
           setIsModalVisible(false);
         } else {
-          console.log("wa drari"  );
+          console.log("failed");
           console.log(value.data.data);
         }
       });
