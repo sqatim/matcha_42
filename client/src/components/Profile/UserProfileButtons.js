@@ -34,7 +34,6 @@ export default function UserProfileButtons({ id }) {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         if (data.status === "add") setType("Add");
         else if (data.status === "friends") setType("Friends");
         else if (data.status === "requested") setType("Cancel");
@@ -73,7 +72,7 @@ export default function UserProfileButtons({ id }) {
           <p>{type == "Pending" ? "Decline" : "Cancel"}</p>
         </div>
       )}
-      {type && (
+      {type == "Friends" && (
         <div className="UserProfileContent__button_child message">
           <i className="fi fi-rs-interface"></i>
           <p>Message</p>

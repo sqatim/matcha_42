@@ -10,9 +10,10 @@ export default function FriendCardContainer() {
   const effectRun = useRef(false);
   const [friends, setFriends] = useState([]);
   let offset = 0;
+  
   const fetchFriends = () => {
     axios
-      .get(`${URL}/friends/me?limit=20&offset=${offset}`, {
+      .get(`${URL}/friends/me?limit=3&offset=${offset}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -22,7 +23,7 @@ export default function FriendCardContainer() {
         data.map((element) => newFriends.push(element.recipient));
         setFriends((oldFriends) => [...oldFriends, ...newFriends]);
       });
-    offset += 20;
+    offset += 3;
   };
   const handleScroll = (event) => {
     if (
@@ -37,15 +38,17 @@ export default function FriendCardContainer() {
       componentRef.current.addEventListener("scroll", handleScroll);
       return () => {
         effectRun.current = true;
-        componentRef.current.removeEventListener("scroll", handleScroll);
+        // componentRef.current.removeEventListener("scroll", handleScroll);
       };
     }
   }, []);
   useEffect(() => {}, [friends]);
   return (
     <FriendCardContainerStyle ref={componentRef}>
-      {friends.map((element) => (
+      {friends.map((element, key) => (
         <FriendCard
+        key={key}
+          id={element._id}
           firstname={element.firstname}
           lastname={element.lastname}
           username={element.username}

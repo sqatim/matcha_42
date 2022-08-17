@@ -10,6 +10,12 @@ import { UsersController } from './interface-adapters/controllers/users.controll
 import { ProfileController } from './interface-adapters/controllers/profile.controller';
 import { FriendsModule } from './services/use-cases/friends/friends.module';
 import { FriendsController } from './interface-adapters/controllers/friends.controller';
+import { MessageService } from './services/use-cases/message/message.service';
+import { ConversationService } from './services/use-cases/conversation/conversation.service';
+import { ConversationModule } from './services/use-cases/conversation/conversation.module';
+import { MessageModule } from './services/use-cases/message/message.module';
+import { ConversationController } from './interface-adapters/controllers/conversation.controller';
+import { MessageController } from './interface-adapters/controllers/message.controller';
 
 @Module({
   imports: [
@@ -18,12 +24,16 @@ import { FriendsController } from './interface-adapters/controllers/friends.cont
     AuthModule,
     DataModule,
     FriendsModule,
+    ConversationModule,
+    MessageModule,
   ],
   controllers: [
     AppController,
     UsersController,
     ProfileController,
     FriendsController,
+    ConversationController,
+    MessageController,
   ],
   providers: [AppService, DataService],
 })

@@ -13,13 +13,9 @@ export class UsersController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async findMyData(@Req() req) {
-    console.log(req.user);
-    // return await this.userService.findUserById(req.user.id);
-    // return await this.userService.findAll();
+    return await this.dataSerice.loginWithJwt(req.user.id)
   }
   @Get(':id')
   async findUserData(@Param('id') id: string) {
-    // return await this.userService.findUserById(id);
-    // return await
   }
 }

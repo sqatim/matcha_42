@@ -19,7 +19,6 @@ export class FriendsController {
   @UseGuards(JwtAuthGuard)
   async findMyFriends(@Req() req, @Query() query)
   {
-    console.log(query);
     return this.dataService.findMyFriends(req.user.id, query);
   }
 

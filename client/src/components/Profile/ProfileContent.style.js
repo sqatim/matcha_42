@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 export const ProfileContentStyle = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100% -60px - 1.4rem);
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   display: flex;

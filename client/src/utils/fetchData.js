@@ -12,6 +12,17 @@ export const loginRequest = async (username, password) => {
   return result;
 };
 
+export const directLoginRequest = async () => {
+  const result = await axios
+    .get(`${URL}/users/me`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then((value) => value.data);
+  return result;
+};
+
 export const setPositionRequest = async (data) => {
   let result;
   if (data.position == null) {
@@ -66,7 +77,7 @@ export const likeRequest = (id, setType) => {
         },
       }
     )
-    .then(({ data }) => {
+    .then(() => {
       setType("Cancel");
     });
 };
@@ -81,38 +92,108 @@ export const matchRequest = (id, setType) => {
         },
       }
     )
-    .then(({ data }) => {
-      // console.log(data);
+    .then(() => {
       setType("Friends");
     });
 };
 export const cancelRequest = (id, setType) => {
   axios
-    .delete(
-      `${URL}/friends/me/cancelRequest/${id}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    )
-    .then(({ data }) => {
-      console.log('wa fen a sanmir');
+    .delete(`${URL}/friends/me/cancelRequest/${id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then(() => {
       setType("Add");
     });
 };
+
 export const removeFriendRequest = (id, setType) => {
   axios
-    .delete(
-      `${URL}/friends/me/removeFriend/${id}`,
+    .delete(`${URL}/friends/me/removeFriend/${id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then(() => {
+      setType("Add");
+    });
+};
+
+export const retrieveConversationRequest = (id, setType) => {
+  axios
+    .delete(`${URL}/friends/me/removeFriend/${id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then(() => {
+      setType("Add");
+    });
+};
+
+export const getMyConversationsRequest = async () => {
+  const result = await axios
+    .get(`${URL}/conversation/me/`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then((value) => value.data);
+  return result;
+};
+
+export const getConversationWithMyFriendRequest = async (friendId) => {
+  const result = await axios
+    .get(`${URL}/conversation/find/me/friend/${friendId}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then((value) => value.data);
+  return result;
+};
+
+export const getMessagesOfConversationRequest = (
+  conversationId,
+  offset,
+  limit
+) => {
+  const result = axios
+    .get(
+      `${URL}/message/me/conversation/${conversationId}?offset=${offset}&limit=${limit}`,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       }
     )
-    .then(({ data }) => {
-      console.log('wa fen a sanmir');
-      setType("Add");
+    .then((value) => {
+      return value.data;
     });
+  return result;
+};
+
+export const findMessageOfConversation = (setConversations) => {
+  axios
+    .get(`${URL}/conversation/me/`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then(({ data }) => {});
+};
+
+export const sendMessageRequest = (conversationId, text) => {
+  axios
+    .post(
+      `${URL}/message/me/newMessage/conversation/${conversationId}`,
+      { text },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(() => {});
 };

@@ -31,9 +31,6 @@ export default function AvatarModal({ editAvatar, setAvatarModal }) {
         }
       )
       .then((value) => {
-        console.log('------------------------')
-        console.log(value.data);
-        console.log('------------------------')
         dispatch(addAvatar(preview));
         setIsModalVisible(false);
         dispatch(addFirstTimeLogged(false));

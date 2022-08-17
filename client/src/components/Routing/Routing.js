@@ -1,6 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Browse from "../../pages/Browse/Browse";
 import CompleteProfile from "../../pages/CompleteProfile/CompleteProfile";
 import Friends from "../../pages/Friends/Friends";
@@ -16,20 +21,22 @@ import Profile from "../../pages/Profile/Profile";
 //       return
 // };
 export default function Routing() {
+  const { username } = useSelector((state) => state.user);
+
   return (
     <Router>
       <Routes>
         {/* <Route element={<Logged />}> */}
-        <Route key={7}path="/" element={<Login />} />
-        <Route key={0}path="completeProfile" element={<CompleteProfile />} />
+        <Route path="/" element={<Login />} />
+        <Route path="completeProfile" element={<CompleteProfile />} />
         {/* </Route> */}
-        <Route key={9}element={<Layout />}>
-          <Route key={1} path="browse" element={<Browse />} />
-          <Route key={2} path="friends" element={<Friends />} />
-          <Route key={3} path="profile" element={<Profile />} />
-          <Route key={4} path="profile/:id" element={<Profile />}/>
-          <Route key={5} path="messages" element={<Messages />} />
-          <Route key={6} path="notifications" element={<Notifications />} />
+        <Route element={<Layout />}>
+          <Route path="browse" element={<Browse />} />
+          <Route path="friends" element={<Friends />} />
+          <Route  path="profile" element={<Navigate to ={`/profile/${username}`} />} />
+          <Route path="profile/:id" element={<Profile />} />
+          <Route path="messages" element={<Messages />} />
+          <Route path="notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </Router>

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import AvatarModal from "../../components/AvatarModal";
 import { dispatchData } from "../../components/LoginForm/LoginForm";
-import MessagesBar from "../../components/Messages/MessagesBar";
+import ConversationsBarSearch from "../../components/Messages/ConversationsBarSearch";
+import MessagesBar from "../../components/MessagesBar/MessagesBar";
 import DescriptionBar from "../../components/Nedded/DescriptionBar";
 import SideBar from "../../components/SideBar/SideBar";
 import Login from "../Login/Login";
@@ -36,14 +37,14 @@ export default function Layout({ children }) {
     <LayoutStyle>
       <SideBar name={name} setName={setName} />
       {user.firstTimeLogged ? (
-      <AvatarModal/>
+        <AvatarModal />
       ) : (
         <div className="Layout__Content">
           <DescriptionBar name={name} />
           <Outlet />
         </div>
       )}
-      <MessagesBar />
+      {name != "Messages" ? <MessagesBar /> : <ConversationsBarSearch/>}
     </LayoutStyle>
   ) : (
     <></>

@@ -43,12 +43,10 @@ export default function RegisterForm({ setIsModalVisible }) {
       .then((value) => {
         setLoading(false);
         if (value.data.state == "success") {
-          console.log(value.data);
           registerNotification(value.data.user.username.toUpperCase());
           setIsModalVisible(false);
         } else {
           console.log("failed");
-          console.log(value.data.data);
         }
       });
   };

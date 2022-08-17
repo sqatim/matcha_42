@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CheckUserDto, CreateUserDto } from 'src/core/dto/User.dto';
+import { ConversationService } from '../use-cases/conversation/conversation.service';
 import { FriendsService } from '../use-cases/friends/friends.service';
+import { MessageService } from '../use-cases/message/message.service';
 import { UserService } from '../use-cases/user/user.service';
 
 @Injectable()
@@ -10,7 +12,9 @@ export class DataService {
     private readonly jwtService: JwtService,
     private userService: UserService,
     private friendService: FriendsService,
-  ) { }
+    private conversationService: ConversationService,
+    private messageService: MessageService,
+  ) {}
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
@@ -18,6 +22,10 @@ export class DataService {
     return this.jwtService.sign(payload);
   }
 
+  async loginWithJwt(myId) {
+    const result = await this.userService.findUserByid(myId);
+    return result;
+  }
   async createNewUser(newUser: CreateUserDto) {
     let user: any = await this.userService.findDuplicateUser(newUser);
     console.log(user);
@@ -45,7 +53,7 @@ export class DataService {
     if (user) {
       if (user.password == newUser.password) {
         const jwt = this.login(user);
-        console.log('jwt: ', jwt);
+        Object.assign(user, { password: '' });
         return {
           state: 'success',
           user,
@@ -192,8 +200,7 @@ export class DataService {
   async retrieveType(myId, userId) {
     const document = await this.friendService.findDocument(myId, userId);
     console.log(document);
-    if (document == null)
-      return { status: 'add' }
+    if (document == null) return { status: 'add' };
     return document;
   }
   async acceptFriendRequest(myId, friendId) {
@@ -220,5 +227,45 @@ export class DataService {
 
   async findMyFriends(id, query) {
     return await this.friendService.findMyFriends(id, query);
+  }
+
+  // Conversation
+
+  async createNewConversation(myId, friendId) {
+    await this.conversationService.createNewConversation(myId, friendId);
+    return 'hello Word';
+  }
+
+  async findMyConversations(myId) {
+    return await this.conversationService.findMyConversations(myId);
+  }
+
+  async findConversationById(conversationId) {
+    return await this.conversationService.findConversationById(conversationId);
+  }
+  async findConversationWithMyFriend(myId, friendId) {
+    return await this.conversationService.findConversationWithMyFriend(myId, friendId);
+  }
+
+  // Message
+
+  async sendNewMessage(myId, body, conversationId) {
+    const newMessage = await this.messageService.sendNewMessage({
+      sender: myId,
+      text: body.text,
+      conversation: conversationId,
+    });
+    const salam = await this.conversationService.addMessagesInConversation(
+      conversationId,
+      newMessage,
+    );
+    return newMessage;
+  }
+  async getMessageOfConversation(conversationId, query) {
+    const result = await this.messageService.getMessageOfConversation(
+      conversationId,
+      query,
+    );
+    return result;
   }
 }

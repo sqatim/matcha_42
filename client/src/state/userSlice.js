@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginRequest, setPositionRequest } from "../utils/fetchData";
+import {
+  directLoginRequest,
+  loginRequest,
+  setPositionRequest,
+} from "../utils/fetchData";
 
 const initialState = {
+  id: null,
   firstname: "",
   lastname: "",
   username: "",
@@ -23,7 +28,9 @@ const initialState = {
 };
 
 export const postLogin = createAsyncThunk("user/postLogin", async (infos) => {
-  return await loginRequest(infos.username, infos.password);
+  if (infos.request == "Post")
+    return await loginRequest(infos.username, infos.password);
+  return await directLoginRequest();
 });
 
 export const changePositionRequest = createAsyncThunk(
@@ -37,6 +44,9 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    addId: (state, action) => {
+      state.id = action.payload;
+    },
     addFirstname: (state, action) => {
       state.firstname = action.payload;
     },
@@ -130,12 +140,15 @@ export const userSlice = createSlice({
     [postLogin.pending]: (state, action) => {
       state.status = "pending";
     },
+    [postLogin.rejected]: (state, action) => {
+      state.status = "rejected";
+    },
     [postLogin.fulfilled]: (state, action) => {
-      console.log(action.payload);
       if (action.payload.state === "failed") {
         state.status = "failed";
         return;
       }
+      if(action.payload.jwt)
       localStorage.setItem("token", action.payload.jwt);
       state = Object.assign(state, action.payload.user, { status: "success" });
     },
@@ -143,10 +156,11 @@ export const userSlice = createSlice({
       state.status = "pending";
     },
     [changePositionRequest.fulfilled]: (state, action) => {
-      state = Object.assign(
-        state,
-        { position: [...action.payload.position],  status: "success", positionSelected: action.payload.positionSelected},
-      );
+      state = Object.assign(state, {
+        position: [...action.payload.position],
+        status: "success",
+        positionSelected: action.payload.positionSelected,
+      });
     },
   },
 });
@@ -175,7 +189,8 @@ export const {
   setPositionSelected,
   removePhoto,
   addRating,
-  setStatus
+  setStatus,
+  addId,
 } = userSlice.actions;
 
 // export default userSlice.reducer;

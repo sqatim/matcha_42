@@ -21,7 +21,7 @@ export class UserService {
   }
 
   async findUserByid(id: string) {
-    return await this.userModel.findById(id).exec();
+    return await this.userModel.findById(id, '-password').exec();
   }
 
   async findProfileOfUserByUsername(id: string) {

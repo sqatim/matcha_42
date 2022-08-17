@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Types } from 'mongoose';
+import { Conversation } from './conversation.schema';
 import { Friends } from './friends.schema';
 
 export type UserDocument = User & Document;
@@ -62,6 +63,9 @@ export class User {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Friends' }] })
   friends: Friends[];
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Conversation' }] })
+  conversations: Conversation[];
 
   @Prop({ default: 'Offline' })
   status: string;

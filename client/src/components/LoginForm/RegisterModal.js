@@ -8,10 +8,6 @@ import {
 } from "./RegisterModal.style";
 import RegisterForm from "./RegisterForm";
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  console.log(e.target.value);
-}
 
 export default function RegisterModal() {
   const [isModalVisible, setIsModalVisible] = useState(false);

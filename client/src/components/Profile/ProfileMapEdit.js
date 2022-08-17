@@ -24,7 +24,6 @@ function LocationMarker({
   positionSelected,
   setPositionSelected,
 }) {
-  console.log(positionSelected);
   const map = useMap();
 
   if (position) {
@@ -64,7 +63,7 @@ export default function ProfileMapEdit({ setEdit }) {
         setPositionSelected(true);
       },
       () => {
-        console.log("la mablansh");
+        console.log("No Way");
       }
     );
   };

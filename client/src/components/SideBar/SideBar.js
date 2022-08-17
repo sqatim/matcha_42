@@ -34,6 +34,7 @@ export default function SideBar({ name, setName }) {
       <InfoStyle
         onClick={() => {
           setName("Profile");
+          console.log("username:", username);
           navigate(`/profile/${username}`, { replace: true });
         }}
       >

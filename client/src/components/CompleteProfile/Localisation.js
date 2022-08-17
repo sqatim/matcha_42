@@ -20,7 +20,6 @@ function LocationMarker() {
   }
   const map1 = useMapEvents({
     click(e) {
-      console.log(e.latlng);
       dispatch(addPosition([e.latlng.lat, e.latlng.lng]));
     },
   });
@@ -41,13 +40,12 @@ export default function Localisation() {
         dispatch(addPosition([...newPosition]));
       },
       () => {
-        console.log("la mablansh");
+        console.log("No way");
       }
     );
   };
   const geolocateOffClick = () => {
     dispatch(removePosition());
-    console.log("geolocateOff");
   };
   return (
     <LocalisationStyle>

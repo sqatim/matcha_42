@@ -27,7 +27,7 @@ export default function ProfileInformationContent({ otherUser, userData }) {
       var ageInMilliseconds = new Date() - new Date(dateString);
       return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365);
     }
-    setAge(getAge(otherUser ? userData.dateOfBirth : dateOfBirth));
+    setAge(getAge(otherUser != username ? userData.dateOfBirth : dateOfBirth));
   }, []);
   return (
     <div className="ProfileContent__content">
