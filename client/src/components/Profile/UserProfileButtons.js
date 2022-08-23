@@ -12,7 +12,9 @@ import { Button, Popover } from "antd";
 
 const handleClick = (type, id, setType) => {
   if (type == "Match") matchRequest(id, setType);
-  if (type == "Add") likeRequest(id, setType);
+  if (type == "Add") {
+    likeRequest(id, setType);
+  }
   if (type == "Cancel") cancelRequest(id, setType);
   if (type == "Remove") removeFriendRequest(id, setType);
 };

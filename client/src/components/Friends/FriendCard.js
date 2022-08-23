@@ -5,6 +5,7 @@ import {
   setActive,
   setActiveConversation,
 } from "../../state/messagesSlice";
+import { removeFriendRequest } from "../../utils/fetchData";
 import CardAvatar from "./CardAvatar";
 import { FriendCardStyle } from "./Styles/FriendCard.style";
 
@@ -15,6 +16,8 @@ export default function FriendCard({
   username,
   img,
   status,
+  setFriends,
+  friends,
 }) {
   const { active, conversation } = useSelector((state) => state.messages);
   const dispatch = useDispatch();
@@ -37,13 +40,25 @@ export default function FriendCard({
                 friendUsername: username,
               })
             );
-            console.log("friendCard: ", conversation)
+            console.log("friendCard: ", conversation);
             dispatch(getConversationWithMyFriend(id));
           }}
         >
           Contact
         </button>
-        <button className="FriendCard__buttons_remove">Remove</button>
+        <button
+          className="FriendCard__buttons_remove"
+          onClick={() => {
+            removeFriendRequest(id).then(() => {
+              const filterData = [...friends].filter(
+                (element) => element._id != id
+              );
+              setFriends([...filterData]);
+            });
+          }}
+        >
+          Remove
+        </button>
       </div>
     </FriendCardStyle>
   );

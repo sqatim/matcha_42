@@ -78,6 +78,7 @@ export const likeRequest = (id, setType) => {
       }
     )
     .then(() => {
+      console.log("why brother");
       setType("Cancel");
     });
 };
@@ -109,15 +110,17 @@ export const cancelRequest = (id, setType) => {
 };
 
 export const removeFriendRequest = (id, setType) => {
-  axios
+  const result = axios
     .delete(`${URL}/friends/me/removeFriend/${id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-    .then(() => {
-      setType("Add");
+    .then((value) => {
+      if (setType) setType("Add");
+      return value;
     });
+  return result;
 };
 
 export const retrieveConversationRequest = (id, setType) => {
@@ -196,4 +199,13 @@ export const sendMessageRequest = (conversationId, text) => {
       }
     )
     .then(() => {});
+};
+
+export const getMyNotifications = () => {
+  const result = axios.get(`${URL}/notification/me/`, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+  return result;
 };

@@ -16,7 +16,6 @@ export class MessageService {
   }
 
   async getMessageOfConversation(conversationId, query) {
-    console.log(conversationId);
     const result = await this.messageModel
       .find({
         conversation: conversationId,
@@ -26,7 +25,6 @@ export class MessageService {
       .limit(query.limit)
       .populate('sender', 'id username avatar')
       .exec();
-    console.log(result);
     return result;
   }
 }

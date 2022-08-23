@@ -1,20 +1,25 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function MessageAvatar({ avatar, status }) {
+export default function Avatar({ avatar, status, checkUsername }) {
+  const { username } = useSelector((state) => state.user);
+
   return (
-    <MessageAvatarStyle className="messageBar__avatar">
+    <MessagesAvatarStyle className="messageBar__avatar">
       <img src={avatar} alt="Message avatar" />
-      <MessageAvatarStatusStyle status={status}>
-        <div></div>
-      </MessageAvatarStatusStyle>
-    </MessageAvatarStyle>
+      {username != checkUsername && (
+        <MessageAvatarStatusStyle status={status}>
+          <div></div>
+        </MessageAvatarStatusStyle>
+      )}
+    </MessagesAvatarStyle>
   );
 }
 
-const MessageAvatarStyle = styled.div`
-  width: 50px;
-  height: 50px;
+const MessagesAvatarStyle = styled.div`
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   /* border: 4px solid #000; */
   position: relative;
@@ -30,12 +35,12 @@ const MessageAvatarStatusStyle = styled.div`
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  right:-2px;
+  right: -2px;
   bottom: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.8px;;
+  padding: 1.8px;
   div {
     width: 100%;
     height: 100%;

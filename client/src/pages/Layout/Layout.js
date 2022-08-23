@@ -8,12 +8,13 @@ import ConversationsBarSearch from "../../components/Messages/ConversationsBarSe
 import MessagesBar from "../../components/MessagesBar/MessagesBar";
 import DescriptionBar from "../../components/Nedded/DescriptionBar";
 import SideBar from "../../components/SideBar/SideBar";
+import { startConnecting } from "../../state/userSlice";
 import Login from "../Login/Login";
 import { LayoutStyle } from "./Layout.style";
 
-export default function Layout({ children }) {
+export default function Layout({ name, setName, children }) {
   const user = useSelector((state) => state.user);
-  const [name, setName] = useState("Profile");
+  // const [name, setName] = useState("Profile");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,12 @@ export default function Layout({ children }) {
         .catch(() => navigate("/", { replace: true }));
     } else setLoading(false);
   }, []);
+  useEffect(() => {
+    if (user.id) {
+      console.log("wa draru");
+      dispatch(startConnecting(user.id));
+    }
+  }, [user.id]);
   if (!loading && !user.logged) return <Login />;
   return !loading ? (
     <LayoutStyle>
@@ -44,7 +51,7 @@ export default function Layout({ children }) {
           <Outlet />
         </div>
       )}
-      {name != "Messages" ? <MessagesBar /> : <ConversationsBarSearch/>}
+      {name != "Messages" ? <MessagesBar /> : <ConversationsBarSearch />}
     </LayoutStyle>
   ) : (
     <></>

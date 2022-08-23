@@ -62,6 +62,7 @@ export default function SideBar({ name, setName }) {
           localStorage.removeItem("token");
           dispatch(resetUser());
           navigate("/", { replace: true });
+          window.location.reload(false);
         }}
       >
         <LogoutSvg />

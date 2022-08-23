@@ -21,6 +21,7 @@ export class Friends {
 
   @Prop({ type: String, enum: StatusType })
   status = StatusType;
+  
 }
 
 export const FriendsSchema = SchemaFactory.createForClass(Friends);

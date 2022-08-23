@@ -1,7 +1,5 @@
 import React from "react";
 import { useEffect } from "react";
-import MessageAvatar from "./MessageAvatarBar";
-import { ContactBarStyle } from "./Styles/MessagesBar.style";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { getLastMessage } from "../../utils/functions";
@@ -10,6 +8,9 @@ import {
   getConversationWithMyFriend,
   setActiveConversation,
 } from "../../state/messagesSlice";
+
+import { ContactStyle } from "./Styles/Messages.style";
+import Avatar from "./Avatar";
 
 export default function Contact({ conversation }) {
   const { id, username } = useSelector((state) => state.user);
@@ -23,11 +24,8 @@ export default function Contact({ conversation }) {
     } else setFriend(conversation.members[0]);
     setMessages(conversation.messages);
   }, [conversation]);
-  // useEffect(() => {
-  // }, [conversation]);
-  // console.log(conversation.messages);
   return (
-    <ContactBarStyle
+    <ContactStyle
       onClick={() => {
         dispatch(
           setActiveConversation({
@@ -43,7 +41,7 @@ export default function Contact({ conversation }) {
       }}
     >
       <div className="leftSide">
-        <MessageAvatar status="Online" avatar={friend.avatar} />
+        <Avatar status="Online" avatar={friend.avatar} />
         {messages.length > 0 && (
           <div className="contact__content">
             <p className="contact__content_username">{friend.username}</p>
@@ -59,6 +57,6 @@ export default function Contact({ conversation }) {
       {messages.length > 0 && (
         <p className="contact__content_time">{format(messages[0].createdAt)}</p>
       )}
-    </ContactBarStyle>
+    </ContactStyle>
   );
 }

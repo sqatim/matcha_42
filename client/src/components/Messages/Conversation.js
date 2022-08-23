@@ -1,28 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ConversationStyle } from "./Styles/Conversation.style";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addMessageToConversation,
   setConversationMessages,
+  submitMessage,
 } from "../../state/messagesSlice";
-import Message from "./Message";
 import {
   getMessagesOfConversationRequest,
   sendMessageRequest,
 } from "../../utils/fetchData";
+import Message from "./Message";
+import { ConversationStyle } from "./Styles/Messages.style";
 
 export default function Conversation() {
   const [message, setMessage] = useState("");
-  const useEffectRef = useRef(false);
-  const componentRef = useRef(false);
-  const dispatch = useDispatch();
-  const { friendUsername, conversation, conversationMessages } = useSelector(
+  const { friendUsername, conversation, conversationMessages, friendId } = useSelector(
     (state) => state.messages
   );
-  const { username, avatar } = useSelector((state) => state.user);
+  const { username, avatar, id } = useSelector((state) => state.user);
+  const componentRef = useRef(false);
+  const dispatch = useDispatch();
+
   let limit = 10;
   let offset = 0;
-
   useEffect(() => {
     if (
       conversation.members &&
@@ -52,10 +52,19 @@ export default function Conversation() {
     }
   };
   const sendMessage = () => {
+    console.log("hi sami ki dayr");
     dispatch(
       addMessageToConversation({
         text: message,
         sender: { username, avatar },
+      })
+    );
+    dispatch(
+      submitMessage({
+        id: friendId,
+        text: message,
+        sender: { username, avatar, id },
+        conversationId: conversation._id,
       })
     );
     sendMessageRequest(conversation._id, message);
@@ -86,7 +95,10 @@ export default function Conversation() {
             if (event.key == "Enter") sendMessage();
           }}
         />
-        <i className="fi fi-sr-interface" onClick={sendMessage}></i>
+        <div className="Conversation__sendButton" onClick={sendMessage}>
+          <p>Send</p>
+          <i className="fi fi-sr-interface"></i>
+        </div>
       </div>
     </ConversationStyle>
   );

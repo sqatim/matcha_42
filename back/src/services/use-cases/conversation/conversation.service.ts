@@ -53,7 +53,7 @@ export class ConversationService {
   async addMessagesInConversation(id, messageDocument) {
     return await this.conversationModel.findOneAndUpdate(
       { _id: id },
-      { $push: { messages: messageDocument._id } },
+      {$set: {checked: false} ,$push: { messages: messageDocument._id } },
     );
   }
 }

@@ -4,6 +4,12 @@ import {
   loginRequest,
   setPositionRequest,
 } from "../utils/fetchData";
+import { io, Socket } from "socket.io-client";
+import {
+  addMessageToConversation,
+  addNewMessageToConversations,
+  submitMessage,
+} from "./messagesSlice";
 
 const initialState = {
   id: null,
@@ -25,6 +31,7 @@ const initialState = {
   positionSelected: false,
   status: null,
   rating: 0,
+  isConnected: false,
 };
 
 export const postLogin = createAsyncThunk("user/postLogin", async (infos) => {
@@ -40,10 +47,45 @@ export const changePositionRequest = createAsyncThunk(
   }
 );
 
+export const userMiddleware = (store) => {
+  let socket;
+  return (next) => (action) => {
+    const isConnectionEstablished = socket && store.getState().user.isConnected;
+    if (startConnecting.match(action)) {
+      // console.log("in");
+      socket = io("http://localhost:5050");
+
+      socket.on("connect", () => {
+        console.log("-_-_-_-_-_-");
+        socket.emit("connection", { id: action.payload });
+      });
+      socket.on("receiveMessage", (payload) => {
+        store.dispatch(
+          addMessageToConversation({
+            text: payload.text,
+            sender: payload.sender,
+          })
+        );
+        // console.log("receiveMessage:", store.getState().messages.conversations  );
+        store.dispatch(addNewMessageToConversations(payload));
+      });
+    }
+    if (submitMessage.match(action)) {
+      // console.log("--------------");
+      // console.log("payload:", action.payload);
+      socket.emit("sendMessage", action.payload);
+    }
+    next(action);
+  };
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    startConnecting: (state, action) => {
+      state.isConnected = true;
+    },
     addId: (state, action) => {
       state.id = action.payload;
     },
@@ -148,8 +190,7 @@ export const userSlice = createSlice({
         state.status = "failed";
         return;
       }
-      if(action.payload.jwt)
-      localStorage.setItem("token", action.payload.jwt);
+      if (action.payload.jwt) localStorage.setItem("token", action.payload.jwt);
       state = Object.assign(state, action.payload.user, { status: "success" });
     },
     [changePositionRequest.pending]: (state, action) => {
@@ -191,6 +232,7 @@ export const {
   addRating,
   setStatus,
   addId,
+  startConnecting,
 } = userSlice.actions;
 
 // export default userSlice.reducer;

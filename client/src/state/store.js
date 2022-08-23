@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { completeProfileSlice } from "./completeProfileSlice";
 import { messagesSlice } from "./messagesSlice";
 import { registerSlice } from "./registerSlice";
-import { userSlice } from "./userSlice";
+import { userMiddleware, userSlice } from "./userSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,4 +11,6 @@ export const store = configureStore({
     user: userSlice.reducer,
     messages: messagesSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userMiddleware),
 });

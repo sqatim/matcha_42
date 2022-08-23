@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -22,7 +22,7 @@ import Profile from "../../pages/Profile/Profile";
 // };
 export default function Routing() {
   const { username } = useSelector((state) => state.user);
-
+  const [name, setName] = useState("");
   return (
     <Router>
       <Routes>
@@ -30,13 +30,13 @@ export default function Routing() {
         <Route path="/" element={<Login />} />
         <Route path="completeProfile" element={<CompleteProfile />} />
         {/* </Route> */}
-        <Route element={<Layout />}>
-          <Route path="browse" element={<Browse />} />
-          <Route path="friends" element={<Friends />} />
+        <Route element={<Layout name={name} setName={setName}/>}>
+          <Route path="browse" element={<Browse setName={setName}/>} />
+          <Route path="friends" element={<Friends setName={setName}/>} />
           <Route  path="profile" element={<Navigate to ={`/profile/${username}`} />} />
-          <Route path="profile/:id" element={<Profile />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="notifications" element={<Notifications />} />
+          <Route path="profile/:id" element={<Profile setName={setName}/>} />
+          <Route path="messages" element={<Messages setName={setName}/>} />
+          <Route path="notifications" element={<Notifications setName={setName}/>} />
         </Route>
       </Routes>
     </Router>

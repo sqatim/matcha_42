@@ -7,11 +7,11 @@ import {
   setActiveConversation,
 } from "../../state/messagesSlice";
 import ContactContainer from "./ContactContainer";
-import Conversation from "./Conversation";
+import Conversation from "./ConversationBar";
 import { MessagesBarStyle } from "./Styles/MessagesBar.style";
 
 export default function MessagesBar() {
-  const { active, activeConversation, friendUsername, conversation } =
+  const { active, activeConversation, friendUsername, conversation, conversations } =
     useSelector((state) => state.messages);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function MessagesBar() {
           <i className="fi fi-sr-caret-up"></i>
         )}
       </div>
-      {!activeConversation ? <ContactContainer /> : conversation._id && <Conversation />}
+      {!activeConversation ? conversations &&  <ContactContainer /> : conversation._id && <Conversation />}
     </MessagesBarStyle>
   );
 }
