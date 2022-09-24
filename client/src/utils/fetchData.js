@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendNotification } from "../state/userSlice";
 
 export const URL = `http://localhost:3001`;
 
@@ -66,7 +67,7 @@ export const setPositionRequest = async (data) => {
   return result;
 };
 
-export const likeRequest = (id, setType) => {
+export const likeRequest = (id, setType, dispatch, myData) => {
   axios
     .post(
       `${URL}/friends/me/addFriend/${id}`,
@@ -79,10 +80,11 @@ export const likeRequest = (id, setType) => {
     )
     .then(() => {
       console.log("why brother");
+      dispatch(sendNotification(myData));
       setType("Cancel");
     });
 };
-export const matchRequest = (id, setType) => {
+export const matchRequest = (id, setType, dispatch, myData) => {
   axios
     .post(
       `${URL}/friends/me/acceptFriend/${id}`,
@@ -94,6 +96,7 @@ export const matchRequest = (id, setType) => {
       }
     )
     .then(() => {
+      dispatch(sendNotification(myData));
       setType("Friends");
     });
 };

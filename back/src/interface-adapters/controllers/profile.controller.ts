@@ -42,8 +42,6 @@ export class ProfileController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async FindMyProfile(@Req() req) {
-    console.log(req.user);
-    // return await this.dataService.findMyData('62d87eb9d59303f818934af9');
     return await this.dataService.findMyData(req.user.id);
   }
 

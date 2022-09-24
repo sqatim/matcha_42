@@ -49,7 +49,7 @@ export default function ProfileInformation({ otherUser, userData }) {
           </div>
         </div>
       )}
-      {otherUser != username && <UserProfileButtons id={userData._id}/>}
+      {otherUser != username && <UserProfileButtons friendUsername={otherUser} friendId={userData._id}/>}
       <div>
         {!edit ? (
           <ProfileInformationContent

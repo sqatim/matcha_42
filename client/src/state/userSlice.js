@@ -13,6 +13,8 @@ import {
 
 const initialState = {
   id: null,
+  friendType: null,
+  notification: null,
   firstname: "",
   lastname: "",
   username: "",
@@ -52,11 +54,9 @@ export const userMiddleware = (store) => {
   return (next) => (action) => {
     const isConnectionEstablished = socket && store.getState().user.isConnected;
     if (startConnecting.match(action)) {
-      // console.log("in");
       socket = io("http://localhost:5050");
 
       socket.on("connect", () => {
-        console.log("-_-_-_-_-_-");
         socket.emit("connection", { id: action.payload });
       });
       socket.on("receiveMessage", (payload) => {
@@ -66,15 +66,21 @@ export const userMiddleware = (store) => {
             sender: payload.sender,
           })
         );
-        // console.log("receiveMessage:", store.getState().messages.conversations  );
         store.dispatch(addNewMessageToConversations(payload));
+      });
+      socket.on("showNotification", (payload) => {
+        store.dispatch(setNotification(payload));
+      });
+      socket.on("friendOperation", (payload) => {
+        store.dispatch(setFriendType(payload));
       });
     }
     if (submitMessage.match(action)) {
-      // console.log("--------------");
-      // console.log("payload:", action.payload);
       socket.emit("sendMessage", action.payload);
-    }
+    } else if (sendNotification.match(action)) {
+      socket.emit("notification", action.payload);
+    } else if (sendFriendType.match(action))
+      socket.emit("friends", action.payload);
     next(action);
   };
 };
@@ -85,6 +91,18 @@ export const userSlice = createSlice({
   reducers: {
     startConnecting: (state, action) => {
       state.isConnected = true;
+    },
+    setNotification: (state, action) => {
+      state.notification = action.payload;
+    },
+    setFriendType: (state, action) => {
+      state.friendType = action.payload;
+    },
+    sendFriendType: (state, action) => {
+      // state.friendType = action.payload;
+    },
+    sendNotification: (state, action) => {
+      console.log("sendNotification:", action.payload);
     },
     addId: (state, action) => {
       state.id = action.payload;
@@ -233,6 +251,10 @@ export const {
   setStatus,
   addId,
   startConnecting,
+  setNotification,
+  sendNotification,
+  setFriendType,
+  sendFriendType,
 } = userSlice.actions;
 
 // export default userSlice.reducer;

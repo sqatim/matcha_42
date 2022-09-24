@@ -15,6 +15,18 @@ import { DataService } from 'src/services/data/data.service';
 export class MessageController {
   constructor(private readonly dataService: DataService) {}
 
+  @Get('me/conversation/:ConversationId')
+  @UseGuards(JwtAuthGuard)
+  async getMessageOfConversation(
+    @Param('ConversationId') conversationId,
+    @Query() query,
+  ) {
+    return await this.dataService.getMessageOfConversation(
+      conversationId,
+      query,
+    );
+  }
+  
   @Post('me/newMessage/conversation/:ConversationId')
   @UseGuards(JwtAuthGuard)
   async sendNewMessage(
@@ -30,15 +42,4 @@ export class MessageController {
     );
   }
 
-  @Get('me/conversation/:ConversationId')
-  @UseGuards(JwtAuthGuard)
-  async getMessageOfConversation(
-    @Param('ConversationId') conversationId,
-    @Query() query,
-  ) {
-    return await this.dataService.getMessageOfConversation(
-      conversationId,
-      query,
-    );
-  }
 }

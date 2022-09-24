@@ -57,10 +57,30 @@ export class AppGateway
   sendMessage(client: any, payload: any) {
     const user = this.getUser(payload.id);
     if (user?.userId) {
-      console.log('wa drari');
       this.server.to(user.socketId).emit('receiveMessage', payload);
     }
-    // console.log(payload);
-    // return 'Hello world!';
+  }
+
+  // Notification
+
+  @SubscribeMessage('notification')
+  showNotification(client: any, payload: any) {
+    const user = this.getUser(payload.friendId);
+    console.log('notification event:', payload);
+    if (user?.userId) {
+      this.server.to(user.socketId).emit('showNotification', payload);
+    }
+  }
+
+  // friends
+
+  @SubscribeMessage('friends')
+  setFriends(client: any, payload: any) {
+    const user = this.getUser(payload.id);
+    // console.log('notification event:', payload);
+    if (user?.userId) {
+      console.log('hi samir: ', payload);
+      this.server.to(user.socketId).emit('friendOperation', payload);
+    }
   }
 }

@@ -5,6 +5,7 @@ import { DataService } from 'src/services/data/data.service';
 import { ConversationModule } from 'src/services/use-cases/conversation/conversation.module';
 import { FriendsModule } from 'src/services/use-cases/friends/friends.module';
 import { MessageModule } from 'src/services/use-cases/message/message.module';
+import { NotificationModule } from 'src/services/use-cases/notification/notification.module';
 import { UserModule } from 'src/services/use-cases/user/user.module';
 import { UserService } from 'src/services/use-cases/user/user.service';
 import { GoogleStrategy } from './google/google.strategy';
@@ -22,6 +23,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
     FriendsModule,
     ConversationModule,
     MessageModule,
+    NotificationModule,
   ],
   providers: [GoogleStrategy, JwtStrategy, DataService],
   exports: [JwtModule],

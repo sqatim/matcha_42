@@ -16,6 +16,9 @@ import { ConversationModule } from './services/use-cases/conversation/conversati
 import { MessageModule } from './services/use-cases/message/message.module';
 import { ConversationController } from './interface-adapters/controllers/conversation.controller';
 import { MessageController } from './interface-adapters/controllers/message.controller';
+import { NotificationController } from './interface-adapters/controllers/notification.controller';
+import { NotificationModule } from './services/use-cases/notification/notification.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { MessageController } from './interface-adapters/controllers/message.cont
     FriendsModule,
     ConversationModule,
     MessageModule,
+    NotificationModule,
   ],
   controllers: [
     AppController,
@@ -34,7 +38,8 @@ import { MessageController } from './interface-adapters/controllers/message.cont
     FriendsController,
     ConversationController,
     MessageController,
+    NotificationController,
   ],
-  providers: [AppService, DataService],
+  providers: [AppService, DataService, AppGateway],
 })
 export class AppModule {}

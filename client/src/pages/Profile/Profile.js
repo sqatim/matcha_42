@@ -20,13 +20,16 @@ const ProfileContent = ({ choice, otherUser, userData }) => {
   }
 };
 
-export default function Profile() {
+export default function Profile({setName}) {
   const [choice, setChoise] = useState("Details");
   const [otherUser, setOtherUser] = useState(null);
   const { username } = useSelector((state) => state.user);
   const [userData, setUserData] = useState({});
 
   const { id } = useParams();
+  useEffect(() => {
+    setName("Profile");
+  }, []);
   useEffect(() => {
     if (id && id != username) {
       axios

@@ -10,8 +10,8 @@ export const NotificationStyle = styled.div`
   border-bottom: 1px solid #e9e7f3;
   padding: 4rem 0;
   cursor: pointer;
-  :hover{
-    background-color: #F7F7F7;
+  :hover {
+    background-color: #f7f7f7;
   }
   /* background-color: ${({ checked }) => !checked && "#F4F3F3"}; */
   img {
@@ -39,11 +39,11 @@ export const NotificationStyle = styled.div`
       font-size: 14px;
     }
   }
-  .notification__content_checked{
+  .notification__content_checked {
     width: 15px;
     height: 15px;
-    background-color: #0C7FDA;
-    border-radius: 50%
+    background-color: #0c7fda;
+    border-radius: 50%;
   }
 `;
 export const NotificationsContainerStyle = styled.div`
@@ -51,5 +51,11 @@ export const NotificationsContainerStyle = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   /* gap: 1rem; */
 `;

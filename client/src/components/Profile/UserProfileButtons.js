@@ -9,28 +9,36 @@ import {
 } from "../../utils/fetchData";
 import { UserProfileButtonsStyle } from "./ProfileContent.style";
 import { Button, Popover } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  sendFriendType,
+  sendNotification,
+  setFriendType,
+} from "../../state/userSlice";
 
-const handleClick = (type, id, setType) => {
-  if (type == "Match") matchRequest(id, setType);
-  if (type == "Add") {
-    likeRequest(id, setType);
+const handleClick = (type, id, setType, dispatch, myData) => {
+  if (type == "Match" || type == "Add") {
+    Object.assign(myData, { type, friendId: id });
+    type == "Match" ? matchRequest(id, setType, dispatch,myData) : likeRequest(id, setType, dispatch,myData);
   }
   if (type == "Cancel") cancelRequest(id, setType);
   if (type == "Remove") removeFriendRequest(id, setType);
+  dispatch(sendFriendType({ id, type }));
 };
 
-export default function UserProfileButtons({ id }) {
+export default function UserProfileButtons({ friendUsername, friendId }) {
   const [type, setType] = useState("");
-
+  const { id, username, friendType, avatar } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const content = (
     <div>
-      <p onClick={() => handleClick("Remove", id, setType)}>Remove</p>
+      <p onClick={() => handleClick("Remove", friendId, setType, dispatch)}>Remove</p>
       <p>Block</p>
     </div>
   );
   useEffect(() => {
     axios
-      .get(`${URL}/friends/me/type/${id}`, {
+      .get(`${URL}/friends/me/type/${friendId}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -42,13 +50,32 @@ export default function UserProfileButtons({ id }) {
         else if (data.status === "pending") setType("Pending");
       });
   }, []);
+  useEffect(() => {
+    if (friendType) {
+      console.log("wal bnat:", friendType);
+      if (friendType.type == "Add") setType("Pending");
+      else if (friendType.type == "Cancel" || friendType.type == "Remove")
+      setType("Add");
+      else if (friendType.type == "Match") setType("Friends");
+    }
+  }, [friendType]);
   return (
     <UserProfileButtonsStyle type={type}>
       {(type == "Add" || type == "Pending") && (
         <div
           className="UserProfileContent__button_child friend"
           onClick={() => {
-            handleClick(type == "Add" ? "Add" : "Match", id, setType);
+            handleClick(
+              type == "Add" ? "Add" : "Match",
+              friendId,
+              setType,
+              dispatch,
+              {
+                id,
+                username,
+                avatar
+              }
+            );
           }}
         >
           <i className="fi fi-rs-heart"></i>
@@ -67,7 +94,7 @@ export default function UserProfileButtons({ id }) {
         <div
           className="UserProfileContent__button_child decline"
           onClick={() => {
-            handleClick("Cancel", id, setType);
+            handleClick("Cancel", friendId, setType, dispatch);
           }}
         >
           <i className="fi fi-rr-cross-circle"></i>

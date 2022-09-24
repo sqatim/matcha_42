@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
+import BrowseContent from "../../components/Browse/BrowseContent";
+import { BrowseStyle } from "./Browse.style";
 
-export default function Browse({setName}) {
+export default function Browse({ setName }) {
   useEffect(() => {
-    setName('Browse');
-  },[])
+    setName("Browse");
+  }, []);
   return (
-    <div>Browse</div>
-  )
+    <BrowseStyle>
+      <BrowseContent />
+    </BrowseStyle>
+  );
 }

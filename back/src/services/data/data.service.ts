@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CheckUserDto, CreateUserDto } from 'src/core/dto/User.dto';
+import { NotificationType } from 'src/core/schema/notification.schema';
 import { ConversationService } from '../use-cases/conversation/conversation.service';
 import { FriendsService } from '../use-cases/friends/friends.service';
 import { MessageService } from '../use-cases/message/message.service';
+import { NotificationService } from '../use-cases/notification/notification.service';
 import { UserService } from '../use-cases/user/user.service';
 
 @Injectable()
@@ -14,11 +16,11 @@ export class DataService {
     private friendService: FriendsService,
     private conversationService: ConversationService,
     private messageService: MessageService,
+    private notificationService: NotificationService,
   ) {}
 
   login(user) {
     const payload = { email: user.email, sub: user.id };
-    console.log('id: ', user.id);
     return this.jwtService.sign(payload);
   }
 
@@ -28,7 +30,6 @@ export class DataService {
   }
   async createNewUser(newUser: CreateUserDto) {
     let user: any = await this.userService.findDuplicateUser(newUser);
-    console.log(user);
     if (user) {
       if (newUser.username == user.username)
         return {
@@ -71,7 +72,6 @@ export class DataService {
     let photos = [];
     let position = [];
     file.map((element) => photos.push(element.filename));
-    console.log(body);
     body.position.map((element) => position.push(element));
     Object.assign(user, body);
     Object.assign(user, { photos });
@@ -115,7 +115,6 @@ export class DataService {
     const user = await this.userService.findMyProfileByid(id);
     let photos = user.photos;
     files.map((element) => photos.push(element.filename));
-    console.log(photos);
     Object.assign(user, { photos });
     user.save();
     return {
@@ -167,7 +166,6 @@ export class DataService {
       position: body.position,
       positionSelected: body.positionSelected,
     });
-    console.log(body);
     user.save();
     return {
       state: 'Updated',
@@ -177,7 +175,6 @@ export class DataService {
 
   async removePhoto(id, photoId) {
     const user = await this.userService.findMyPhotosProfileByid(id);
-    console.log(user.photos);
     const photos = user.photos.filter((element) => element != photoId);
     Object.assign(user, { photos });
     user.save();
@@ -191,21 +188,32 @@ export class DataService {
       friendId,
       myId,
     );
-    console.log(myDocument);
-    console.log(friendDocument);
+    const notification = {
+      sender: myId,
+      user: friendId,
+      type: NotificationType.LIKE,
+      check: false,
+    };
+    await this.notificationService.createNotification(notification);
     await this.userService.updateFriendRequest(myId, myDocument);
     await this.userService.updateFriendRequest(friendId, friendDocument);
   }
 
   async retrieveType(myId, userId) {
     const document = await this.friendService.findDocument(myId, userId);
-    console.log(document);
     if (document == null) return { status: 'add' };
     return document;
   }
   async acceptFriendRequest(myId, friendId) {
     await this.friendService.acceptFriendRequest(myId, friendId);
     await this.friendService.acceptFriendRequest(friendId, myId);
+    const notification = {
+      sender: myId,
+      user: friendId,
+      type: NotificationType.MATCH,
+      check: false,
+    };
+    await this.notificationService.createNotification(notification);
   }
 
   async removeFriend(myId, friendId) {
@@ -217,6 +225,7 @@ export class DataService {
     await this.userService.updateRemoveFriend(myId, myDocument);
     await this.userService.updateRemoveFriend(friendId, friendDocument);
   }
+
   async cancelRequest(myId, friendId) {
     const myDocument = await this.friendService.removeFriend(myId, friendId);
     const friendDocument = await this.friendService.removeFriend(
@@ -244,7 +253,10 @@ export class DataService {
     return await this.conversationService.findConversationById(conversationId);
   }
   async findConversationWithMyFriend(myId, friendId) {
-    return await this.conversationService.findConversationWithMyFriend(myId, friendId);
+    return await this.conversationService.findConversationWithMyFriend(
+      myId,
+      friendId,
+    );
   }
 
   // Message
@@ -255,10 +267,11 @@ export class DataService {
       text: body.text,
       conversation: conversationId,
     });
-    const salam = await this.conversationService.addMessagesInConversation(
-      conversationId,
-      newMessage,
-    );
+    const conversation =
+      await this.conversationService.addMessagesInConversation(
+        conversationId,
+        newMessage,
+      );
     return newMessage;
   }
   async getMessageOfConversation(conversationId, query) {
@@ -266,6 +279,13 @@ export class DataService {
       conversationId,
       query,
     );
+    return result;
+  }
+
+  // Notifications:
+
+  async getMyNotificationsAndUpdate(myId) {
+    const result = await this.notificationService.getMyNotificationsAndUpdate(myId);
     return result;
   }
 }
